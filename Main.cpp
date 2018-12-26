@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <GL/glew.h>
 #include <glm/ext.hpp>
@@ -6,6 +5,7 @@
 #include "Triangle.h"
 #include "Cube.h"
 #include "Camera.h"
+#include "Road.h"
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -81,6 +81,12 @@ int main(void)
 	c1.setScaling(glm::vec3(0.4, 0.4, 0.4));
 	objects.push_back(&c1);
 
+	Road road;
+	road.Init();
+	road.setPosition(glm::vec3(0, 0, 0));
+	road.setScaling(glm::vec3(0.4, 0.4, 0.4));
+	objects.push_back(&road);
+
 	double scale = 0.0;
 	double pos = 0;
 //	cam.LookAt(t1.getTransformMatrix()[3]);
@@ -94,13 +100,11 @@ int main(void)
 	while (!glfwWindowShouldClose(window))
 	{
 		glm::mat4 View = glm::lookAt(
-			glm::vec3(4*sin(scale*4), 0, 3), // Camera position
+			glm::vec3(0, 1, -1), // Camera position
 			glm::vec3(0, 0, 0), // and looks at the origin
 			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
 		glm::mat4 projectionView = Projection * View;
-
-
 
 		cam.setRotation(glm::vec3(scale, 0 , 0));
 		t1.setRotation(glm::vec3(0, 0, scale));

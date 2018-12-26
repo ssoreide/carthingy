@@ -15,11 +15,13 @@ public:
 	void setScaling(const glm::vec3& scale);
 
 	glm::mat4 getTransformMatrix();
+	glm::vec3 getPosition();
+	glm::vec3 getRotation();
+	glm::vec3 getScaling();
 
 protected:
-	glm::mat4 positionMatrix;
-	glm::mat4 rotationMatrix;
-	glm::mat4 scalingMatrix;
-
+	glm::vec3 positionVector;
+	glm::vec3 rotationVector;
+	glm::vec3 scalingVector;
 };
 

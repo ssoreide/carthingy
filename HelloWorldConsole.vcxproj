@@ -23,7 +23,7 @@
     <ProjectGuid>{3AFFDB55-3A55-4030-8CA9-376FDE81F223}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>HelloWorldConsole</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>Test1</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -171,6 +171,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="LoadShaders.cpp" />
+    <ClCompile Include="Road.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +179,7 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="LoadShaders.h" />
+    <ClInclude Include="Road.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
