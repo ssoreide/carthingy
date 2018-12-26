@@ -14,6 +14,13 @@ using namespace std;
 const int width = 1920;
 const int height = 1080;
 
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS) std::cout << "Raskere";
+	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) std::cout << "Treigere";
+	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) std::cout << "Venstre";
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) std::cout << "Høyre";
+}
+
 int main(void)
 {
 	// Initialise GLFW
@@ -48,6 +55,8 @@ int main(void)
 		glfwTerminate();
 		return -1;
 	}
+
+	glfwSetKeyCallback(window, keyCallback);
 
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
