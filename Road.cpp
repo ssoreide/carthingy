@@ -1,11 +1,17 @@
 #include "Road.h"
 #include "LoadShaders.h"
+#include <math.h>
+#include <iostream>
 
-static const GLfloat g_vertex_buffer_data[] = {
+using namespace std;
+
+/*static const GLfloat g_vertex_buffer_data[] = {
 	-1.0f, 0, 0.5f,
 	1.0f, 0, 0.5f,
 	0.3f,  0, 0.0f,
-};
+};*/
+
+int numberSegments = 100;
 
 Road::Road()
 {
@@ -18,6 +24,34 @@ Road::~Road()
 
 void Road::Init() {
 	programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
+	int n = numberSegments;
+	float widthFactor = 0.8;
+	float pi = atan(1) * 4;
+	int vps = 6; //vertices per segment
+	int cps = 3 * vps; //components per segment
+	cout << "pi: " << pi;
+
+	GLfloat *vertexCoordinates = new GLfloat[n * 18];
+
+	for (int i = 0; i < n; i ++) {
+		int p = i * cps;
+		// TRIANGLE 1
+		vertexCoordinates[p] = cos(i * 2 * pi / n);
+		cout << "vertexCoordinates: " << vertexCoordinates[i];
+		vertexCoordinates[p + 2] = 0;
+		vertexCoordinates[p + 1] = sin(i * 2 * pi / n);
+						  
+		vertexCoordinates[p + 3] = cos(i * 2 * pi / n) * widthFactor;
+		vertexCoordinates[p + 5] = 0;
+		vertexCoordinates[p + 4] = sin(i * 2 * pi / n) * widthFactor;
+						  
+		vertexCoordinates[p + 6] = cos((i + 1) * 2 * pi / n);
+		vertexCoordinates[p + 8] = 0;
+		vertexCoordinates[p + 7] = sin((i + 1) * 2 * pi / n);
+
+		// TRIANGLE 2
+
+	}
 
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
@@ -25,7 +59,7 @@ void Road::Init() {
 
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, n * 18 * sizeof(GLfloat), vertexCoordinates, GL_STATIC_DRAW);
 }
 
 void Road::Draw(const glm::mat4& viewMatrix) {
@@ -43,6 +77,6 @@ void Road::Draw(const glm::mat4& viewMatrix) {
 		0,                  // stride
 		(void*)0            // array buffer offset
 	);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, numberSegments*6);
 	glDisableVertexAttribArray(0);
 }

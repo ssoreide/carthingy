@@ -59,33 +59,21 @@ int main(void)
 	glDepthFunc(GL_LESS);
 
 	Camera cam;
-	cam.setPosition(glm::vec3(0, 0, 0.5));
+	cam.setPosition(glm::vec3(0, 1, 3));
 
 	vector<Object*> objects;
-
-	Triangle t1;
-	t1.Init();
-	t1.setPosition(glm::vec3(0.5,0.5,0));
-	t1.setScaling(glm::vec3(0.4, 0.4, 0.4));
-	objects.push_back(&t1);
-
-	Triangle t2;
-	t2.Init();
-	t2.setPosition(glm::vec3(-0.5, 0.5, 0));
-	t2.setScaling(glm::vec3(0.4, 0.4, 0.4));
-	objects.push_back(&t2);
-
-	Cube c1;
-	c1.Init();
-	c1.setPosition(glm::vec3(0.5, -0.5, 0));
-	c1.setScaling(glm::vec3(0.4, 0.4, 0.4));
-	objects.push_back(&c1);
 
 	Road road;
 	road.Init();
 	road.setPosition(glm::vec3(0, 0, 0));
-	road.setScaling(glm::vec3(0.4, 0.4, 0.4));
+	road.setScaling(glm::vec3(4, 4, 4));
 	objects.push_back(&road);
+
+	Triangle t1;
+	t1.Init();
+	t1.setPosition(glm::vec3(0, 0, 0));
+	t1.setScaling(glm::vec3(0.4, 0.4, 0.4));
+	//objects.push_back(&t1);
 
 	double scale = 0.0;
 	double pos = 0;
@@ -100,16 +88,13 @@ int main(void)
 	while (!glfwWindowShouldClose(window))
 	{
 		glm::mat4 View = glm::lookAt(
-			glm::vec3(0, 1, -1), // Camera position
+			glm::vec3(0, 6, -6), // Camera position
 			glm::vec3(0, 0, 0), // and looks at the origin
 			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
 		glm::mat4 projectionView = Projection * View;
 
 		cam.setRotation(glm::vec3(scale, 0 , 0));
-		t1.setRotation(glm::vec3(0, 0, scale));
-		t2.setRotation(glm::vec3(0, 0, -scale));
-		c1.setRotation(glm::vec3(0.2, 0.3, -scale));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		vector<Object*>::iterator it = objects.begin();
@@ -117,6 +102,8 @@ int main(void)
 			(*it)->Draw(projectionView);
 			it++;
 		}
+
+		road.setRotation(glm::vec3(0.0f, 0.0f, scale));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
