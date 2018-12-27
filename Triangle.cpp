@@ -1,6 +1,7 @@
 #include "Triangle.h"
 #include "LoadShaders.h"
 #include "TextureManager.h"
+#include "Camera.h"
 #include <iostream>
 
 #define TRIANGLE_IMAGE_ID 1
@@ -27,6 +28,8 @@ void Triangle::Init() {
 	glBindVertexArray(VertexArrayID);
 	MatrixID = glGetUniformLocation(programID, "MVP");
 
+	cameraPosID = glGetUniformLocation(programID, "cameraPos");
+
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
@@ -34,13 +37,17 @@ void Triangle::Init() {
 	TextureManager::Inst()->LoadTexture("textures\\road.jpg", TRIANGLE_IMAGE_ID);
 }
 
-void Triangle::Draw(const glm::mat4& viewMatrix) {
+void Triangle::Draw(const Camera& cam) {
 	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 
-	glm::mat4 mvp = viewMatrix*getTransformMatrix();
+	TextureManager::Inst()->BindTexture(TRIANGLE_IMAGE_ID);
+
+	glm::mat4 mvp = cam.getViewProjection()*getTransformMatrix();
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glm::vec3 cpos = cam.getPosition();
+	glUniform3f(cameraPosID, cpos[0], cpos[1], cpos[2]);
 	glVertexAttribPointer(
 		0,                  // attribute 0
 		3,                  // size

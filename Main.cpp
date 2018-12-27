@@ -11,8 +11,8 @@
 
 using namespace std;
 
-const int width = 1920;
-const int height = 1080;
+int width = 1920;
+int height = 1080;
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS) std::cout << "Raskere";
@@ -67,8 +67,8 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	Camera cam;
-	cam.setPosition(glm::vec3(0, 1, 3));
+	Camera cam(width, height);
+	cam.setPosition(glm::vec3(0, 6, 6));
 
 	vector<Object*> objects;
 
@@ -88,7 +88,7 @@ int main(void)
 	c1.Init();
 	c1.setPosition(glm::vec3(3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1));
-	objects.push_back(&c1);
+	//objects.push_back(&c1);
 	
 	int error = glGetError();
 
@@ -104,7 +104,7 @@ int main(void)
 	cam.setRotation(glm::vec3(0, 0, 0));
 	cout << "After rotation: " + glm::to_string(cam.getTransformMatrix()) +"\n";
 
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)width/height, 0.1f, 100.0f);
+	
 
 	error = glGetError();
 	if (error != GL_NO_ERROR) {
@@ -113,19 +113,15 @@ int main(void)
 	while (!glfwWindowShouldClose(window))
 	{
 
-		glm::mat4 View = glm::lookAt(
-			glm::vec3(0, 6, 6), // Camera position
-			glm::vec3(0, 0, 0), // and looks at the origin
-			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-		);
-		glm::mat4 projectionView = Projection * View;
+		cam.LookAt(glm::vec3(0.0, 0.0, 0.0));
+		//glm::mat4 projectionView = Projection * View;
 
 		cam.setRotation(glm::vec3(scale, 0 , 0));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		vector<Object*>::iterator it = objects.begin();
 		while (it != objects.end()) {
-			(*it)->Draw(projectionView);
+			(*it)->Draw(cam);
 			it++;
 		}
 

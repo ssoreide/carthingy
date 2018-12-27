@@ -1,6 +1,7 @@
 #include "Cube.h"
 #include <GL/glew.h>
 #include "LoadShaders.h"
+#include "Camera.h"
 
 static const GLfloat g_vertex_buffer_data[] = {
 	-1.0f,-1.0f,-1.0f, // triangle 1 : begin
@@ -105,12 +106,12 @@ void Cube::Init() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 }
 
-void Cube::Draw(const glm::mat4& viewMatrix) {
+void Cube::Draw(const Camera& cam) {
 	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 
-	glm::mat4 mvp = viewMatrix * getTransformMatrix();
+	glm::mat4 mvp = cam.getViewProjection();
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glVertexAttribPointer(
 		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.

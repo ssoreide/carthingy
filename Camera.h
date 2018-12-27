@@ -4,10 +4,13 @@ class Camera :
 	public Object
 {
 public:
-	Camera();
+	Camera(int width, int height);
 	~Camera();
 	void Init();
-	void Draw(const glm::mat4& viewMatrix);
+	void Draw(const Camera& cam);
 	void LookAt(glm::vec3 object);
+	glm::mat4 Projection;
+	glm::mat4 ViewMatrix;
+	glm::mat4 getViewProjection() const;
 };
 

@@ -2,6 +2,7 @@
 #include "LoadShaders.h"
 #include <math.h>
 #include <iostream>
+#include "Camera.h"
 
 using namespace std;
 
@@ -62,12 +63,12 @@ void Road::Init() {
 	glBufferData(GL_ARRAY_BUFFER, n * 18 * sizeof(GLfloat), vertexCoordinates, GL_STATIC_DRAW);
 }
 
-void Road::Draw(const glm::mat4& viewMatrix) {
+void Road::Draw(const Camera& cam) {
 	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 
-	glm::mat4 mvp = viewMatrix * getTransformMatrix();
+	glm::mat4 mvp = cam.getViewProjection() * getTransformMatrix();
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glVertexAttribPointer(
 		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.

@@ -36,3 +36,7 @@ glm::mat4 Object::getTransformMatrix() {
 	glm::mat4 scalingMatrix = glm::scale(scalingVector);
 	return positionMatrix * rotationMatrix * scalingMatrix;
 }
+
+glm::vec3 Object::getPosition() const{
+	return positionVector;
+}
