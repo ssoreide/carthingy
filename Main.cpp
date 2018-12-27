@@ -81,8 +81,20 @@ int main(void)
 	Triangle t1;
 	t1.Init();
 	t1.setPosition(glm::vec3(0, 0, 0));
-	t1.setScaling(glm::vec3(0.4, 0.4, 0.4));
-	//objects.push_back(&t1);
+	t1.setScaling(glm::vec3(3, 3, 1));
+	objects.push_back(&t1);
+
+	Cube c1;
+	c1.Init();
+	c1.setPosition(glm::vec3(3, 0, 0));
+	c1.setScaling(glm::vec3(1, 1, 1));
+	objects.push_back(&c1);
+	
+	int error = glGetError();
+
+	if (error != GL_NO_ERROR) {
+		cout << "OpenGL error: " << error << "\n";
+	}
 
 	double scale = 0.0;
 	double pos = 0;
@@ -94,10 +106,15 @@ int main(void)
 
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)width/height, 0.1f, 100.0f);
 
+	error = glGetError();
+	if (error != GL_NO_ERROR) {
+		cout << "OpenGL error: " << error << "\n";
+	}
 	while (!glfwWindowShouldClose(window))
 	{
+
 		glm::mat4 View = glm::lookAt(
-			glm::vec3(0, 6, -6), // Camera position
+			glm::vec3(0, 6, 6), // Camera position
 			glm::vec3(0, 0, 0), // and looks at the origin
 			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 		);
@@ -113,6 +130,7 @@ int main(void)
 		}
 
 		road.setRotation(glm::vec3(0.0f, 0.0f, scale));
+		t1.setRotation(glm::vec3(3.0f, 0.0f, -scale));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

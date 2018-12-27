@@ -24,12 +24,13 @@ Road::~Road()
 
 void Road::Init() {
 	programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
+	std::cout << "Road programID: " << programID << "\n";
+
 	int n = numberSegments;
 	float widthFactor = 0.8;
 	float pi = atan(1) * 4;
 	int vps = 6; //vertices per segment
 	int cps = 3 * vps; //components per segment
-	cout << "pi: " << pi;
 
 	GLfloat *vertexCoordinates = new GLfloat[n * 18];
 
@@ -37,7 +38,6 @@ void Road::Init() {
 		int p = i * cps;
 		// TRIANGLE 1
 		vertexCoordinates[p] = cos(i * 2 * pi / n);
-		cout << "vertexCoordinates: " << vertexCoordinates[i];
 		vertexCoordinates[p + 2] = 0;
 		vertexCoordinates[p + 1] = sin(i * 2 * pi / n);
 						  

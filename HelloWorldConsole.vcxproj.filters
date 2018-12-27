@@ -34,6 +34,9 @@
     <ClCompile Include="Road.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object.h">
@@ -54,12 +57,21 @@
     <ClInclude Include="Road.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.glsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="SimpleVertexShader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TextureFragmentShader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TextureVertexShader.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
