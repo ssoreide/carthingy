@@ -129,7 +129,7 @@ int main(void)
 			it++;
 		}
 
-		road.setRotation(glm::vec3(0.0f, 0.0f, scale));
+		road.setRotation(glm::vec3(0.0f, scale, 0.0f));
 		t1.setRotation(glm::vec3(3.0f, 0.0f, -scale));
 
 		glfwSwapBuffers(window);

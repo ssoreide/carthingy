@@ -8,7 +8,7 @@
 static const GLfloat g_vertex_buffer_data[] = {
    -1.0f, -1.0f, 0.0f, 0, 0,
    1.0f, -1.0f, 0.0f, 1, 0,
-   0.0f,  1.0f, 0.0f, 0.5, 1
+   0.0f,  1.0f, 0.0f, 1, 0.1
 };
 
 Triangle::Triangle()
@@ -38,15 +38,16 @@ void Triangle::Draw(const glm::mat4& viewMatrix) {
 	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	TextureManager::Inst()->BindTexture(TRIANGLE_IMAGE_ID);
 
 	glm::mat4 mvp = viewMatrix*getTransformMatrix();
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glVertexAttribPointer(
 		0,                  // attribute 0
-		3,                  // size
+		3,                  // size, coordinates in position
 		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		5 * sizeof(float),  // stride 
+		GL_FALSE,           // normalized? already between 1 and 0?
+		5 * sizeof(float),  // stride nr of coordinates in bytes, distance between vertices
 		(void*)0            // array buffer offset
 	);
 	glVertexAttribPointer(
