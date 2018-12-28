@@ -108,6 +108,7 @@ void Cube::Init() {
 void Cube::Draw(const glm::mat4& viewMatrix) {
 	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 
 	glm::mat4 mvp = viewMatrix * getTransformMatrix();
@@ -121,7 +122,6 @@ void Cube::Draw(const glm::mat4& viewMatrix) {
 		(void*)0            // array buffer offset
 	);
 
-	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 	glVertexAttribPointer(
 		1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
@@ -134,4 +134,5 @@ void Cube::Draw(const glm::mat4& viewMatrix) {
 
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 }

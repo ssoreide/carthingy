@@ -88,7 +88,7 @@ int main(void)
 	c1.Init();
 	c1.setPosition(glm::vec3(3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1));
-	objects.push_back(&c1);
+//	objects.push_back(&c1);
 
 	Skybox skybox;
 	skybox.Init();

@@ -31,7 +31,7 @@ void Road::Init() {
 	programID = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 	std::cout << "Road programID: " << programID << "\n";
 
-	float widthFactor = 0.8;
+	float widthFactor = 0.7;
 	float pi = atan(1) * 4;
 	int vps = 6; //vertices per segment
 	int cps = 5 * vps; //components per segment
@@ -106,6 +106,7 @@ void Road::Init() {
 void Road::Draw(const glm::mat4& viewMatrix) {
 	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
 
@@ -129,4 +130,5 @@ void Road::Draw(const glm::mat4& viewMatrix) {
 	);
 	glDrawArrays(GL_TRIANGLES, 0, textureSegments * sectorsPerTextureSegments * 6);
 	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 }
