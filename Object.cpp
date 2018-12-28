@@ -30,6 +30,14 @@ void Object::rotate(const glm::vec3& delta) {
 	rotationVector += delta;
 }
 
+void Object::moveForward(float distance) {
+	glm::vec3 direction = getTransformMatrix()*glm::vec4(0, 0, 1, 0);
+
+//	glm::vec3 direction = rotationVector;
+	direction = glm::normalize(direction);
+	positionVector += direction * distance;
+}
+
 glm::mat4 Object::getTransformMatrix() {
 	glm::mat4 positionMatrix = glm::translate(glm::mat4(1), positionVector);
 	glm::mat4 rotationMatrix = glm::toMat4(glm::quat(rotationVector));

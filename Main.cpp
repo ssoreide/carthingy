@@ -20,16 +20,18 @@ Camera cam(width,height);
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (key == GLFW_KEY_UP && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		cam.rotate(glm::vec3(-0.1, 0.0, 0.0));
+//		cam.rotate(glm::vec3(-0.1, 0.0, 0.0));
+		cam.moveForward(-0.5);
 	}
 	else if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		cam.rotate(glm::vec3(0.1, 0.0, 0.0));
+//		cam.rotate(glm::vec3(0.1, 0.0, 0.0));
+		cam.moveForward(0.5);
 	}
 	else if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		cam.rotate(glm::vec3(0, -0.1, 0.0));
+		cam.rotate(glm::vec3(0, 0.1, 0.0));
 	}
 	else if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		cam.rotate(glm::vec3(0, 0.1, 0.0));
+		cam.rotate(glm::vec3(0, -0.1, 0.0));
 	}
 }
 
@@ -97,30 +99,44 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	cam.setPosition(glm::vec3(0, 1, 3));
-
 	vector<Object*> objects;
 
 	Road road;
 	road.Init();
 	road.setPosition(glm::vec3(0, 0, 0));
-	road.setScaling(glm::vec3(5, 5, 4));
+	road.setScaling(glm::vec3(15, 15, 15));
 	objects.push_back(&road);
 
 	Triangle t1;
 	t1.Init();
 	t1.setPosition(glm::vec3(0, 0, 0));
 	t1.setScaling(glm::vec3(2, 2, 1));
-	objects.push_back(&t1);
+//	objects.push_back(&t1);
 
 	Cube c1;
 	c1.Init();
-	c1.setPosition(glm::vec3(3, 0, 0));
+	c1.setPosition(glm::vec3(-3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1));
 //	objects.push_back(&c1);
 
+	Cube c2;
+	c2.Init();
+	c2.setPosition(glm::vec3(3, 0, 0));
+	c2.setScaling(glm::vec3(1, 1, 1));
+//	objects.push_back(&c2);
+
+	Cube c3;
+	c3.Init();
+	c3.setPosition(glm::vec3(0, 0, -5));
+	c3.setScaling(glm::vec3(0.5, 0.5, 0.5));
+//	objects.push_back(&c3);
+
 	Skybox skybox;
 	skybox.Init();
+
+	glm::mat4 test = glm::mat4(1);
+	cout << "Newly constructed:\n";
+	printMatrix(test);
 	
 	int error = glGetError();
 
@@ -130,34 +146,13 @@ int main(void)
 
 	double scale = 0.0;
 	double pos = 0;
-//	cam.LookAt(t1.getTransformMatrix()[3]);
 
-	cout << "Camera: " + glm::to_string(cam.getTransformMatrix()) + "\n";
-	cam.setRotation(glm::vec3(0, 0, 0));
-	cout << "After rotation: " + glm::to_string(cam.getTransformMatrix()) +"\n";
-
-	error = glGetError();
-	if (error != GL_NO_ERROR) {
-		cout << "OpenGL error: " << error << "\n";
-	}
-	glm::mat4 View = glm::lookAt(
-		glm::vec3(0, 6, 6), // Camera position
-		glm::vec3(0, 0, 0), // and looks at the origin
-		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-	);
-
-	printMatrix(View);
-
-	cam.setPosition(glm::vec3(0, 0, -8));
-	cam.setRotation(glm::vec3(0.78, 0, 0));
-
-	printMatrix(cam.getProjection());
+	cam.setPosition(glm::vec3(0, 2, 20));
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glm::mat4 projectionView = cam.getProjection() * cam.getTransformMatrix();
+		glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 
-//		cam.setRotation(glm::vec3(scale*2, 0 , scale));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		skybox.Draw(cam.getProjection(), cam.getTransformMatrix());
@@ -168,7 +163,6 @@ int main(void)
 			it++;
 		}
 
-//		road.setRotation(glm::vec3(0.0f, scale, 0.0f));
 		t1.setRotation(glm::vec3(3.0f, 0.0f, -scale));
 
 		glfwSwapBuffers(window);

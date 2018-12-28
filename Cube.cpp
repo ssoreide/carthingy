@@ -102,10 +102,6 @@ void Cube::Init() {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &colorbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-
 	glVertexAttribPointer(
 		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 		3,                  // size
@@ -115,16 +111,7 @@ void Cube::Init() {
 		(void*)0            // array buffer offset
 	);
 
-	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-	glVertexAttribPointer(
-		1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-		3,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-	);
-
+	glBindVertexArray(0);
 }
 
 void Cube::Draw(const glm::mat4& viewMatrix) {
@@ -134,6 +121,5 @@ void Cube::Draw(const glm::mat4& viewMatrix) {
 	glm::mat4 mvp = viewMatrix * getTransformMatrix();
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
 }

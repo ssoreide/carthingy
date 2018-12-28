@@ -130,7 +130,7 @@ void Skybox::Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 
 	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &projectionMatrix[0][0]);
-	glm::mat4 view = glm::mat4(glm::mat3(viewMatrix)); // Removing translation from the camera/view
+	glm::mat4 view = glm::mat4(glm::mat3(glm::inverse(viewMatrix))); // Removing translation from the camera/view
 	glUniformMatrix4fv(ViewID, 1, GL_FALSE, &view[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthMask(GL_TRUE);

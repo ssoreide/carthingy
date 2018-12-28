@@ -16,6 +16,7 @@ public:
 	void setScaling(const glm::vec3& scale);
 
 	void rotate(const glm::vec3& delta);
+	void moveForward(float distance); // Moves in the direction of it's current rotation
 
 	glm::mat4 getTransformMatrix();
 	glm::vec3 getPosition();
