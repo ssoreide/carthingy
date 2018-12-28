@@ -14,9 +14,9 @@ using namespace std;
 	0.3f,  0, 0.0f,
 };*/
 
-int numberSegments = 100;
-int textureSegments = 10;
+int textureSegments = 30;
 int sectorsPerTextureSegments = 10;
+int totalSegments = textureSegments * sectorsPerTextureSegments;
 
 Road::Road()
 {
@@ -31,7 +31,6 @@ void Road::Init() {
 	programID = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 	std::cout << "Road programID: " << programID << "\n";
 
-	int n = numberSegments;
 	float widthFactor = 0.8;
 	float pi = atan(1) * 4;
 	int vps = 6; //vertices per segment
@@ -44,8 +43,8 @@ void Road::Init() {
 		double sectorOffset = (2 * pi / textureSegments) * ts;
 
 		for (int i = 0; i < sectorsPerTextureSegments; i++) {
-			float startAngle = (i * 2 * pi / n) + sectorOffset;
-			float endAngle = ((i + 1) * 2 * pi / n) + sectorOffset;
+			float startAngle = (i * 2 * pi / totalSegments) + sectorOffset;
+			float endAngle = ((i + 1) * 2 * pi / totalSegments) + sectorOffset;
 			
 			// TRIANGLE 1
 			PosAndTexCoordinates[p++] = cos(startAngle);
@@ -95,7 +94,13 @@ void Road::Init() {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, arraySize * sizeof(GLfloat), PosAndTexCoordinates, GL_STATIC_DRAW);
 
-	TextureManager::Inst()->LoadTexture("textures\\road.jpg", ROAD_IMAGE_ID);
+	TextureManager::Inst()->LoadTexture("textures\\road3.jpg", ROAD_IMAGE_ID);
+	// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	// Generate mipmaps, by the way.
+	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 void Road::Draw(const glm::mat4& viewMatrix) {
