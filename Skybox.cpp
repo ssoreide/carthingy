@@ -106,9 +106,10 @@ void Skybox::Init() {
 
 	programID = LoadShaders("SkyboxVertexShader.glsl", "SkyboxFragmentShader.glsl");
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
-	MatrixID = glGetUniformLocation(programID, "MVP");
+	glGenVertexArrays(1, &myVAO);
+	glBindVertexArray(myVAO);
+	ProjectionID = glGetUniformLocation(programID, "projection");
+	ViewID = glGetUniformLocation(programID, "view");
 
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -116,7 +117,8 @@ void Skybox::Init() {
 
 }
 
-void Skybox::Draw(const glm::mat4& viewMatrix) {
+void Skybox::Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
+	glBindVertexArray(myVAO);
 	glDepthMask(GL_FALSE);
 	glUseProgram(programID);
 //	skyboxShader.use();
@@ -133,25 +135,11 @@ void Skybox::Draw(const glm::mat4& viewMatrix) {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
-	glm::mat4 mvp = viewMatrix;
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-/*	glVertexAttribPointer(
-		0,                  // attribute 0
-		3,                  // size, coordinates in position
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized? already between 1 and 0?
-		5 * sizeof(float),  // stride nr of coordinates in bytes, distance between vertices
-		(void*)0            // array buffer offset
-	);
-	glVertexAttribPointer(
-		1,                  // attribute 1
-		2,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		5 * sizeof(float),  // stride
-		(void*)0            // array buffer offset
-	);*/
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &projectionMatrix[0][0]);
+	glUniformMatrix4fv(ViewID, 1, GL_FALSE, &viewMatrix[0][0]);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,	0,(void*)0 );
+	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthMask(GL_TRUE);
 	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
 }

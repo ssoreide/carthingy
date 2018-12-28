@@ -92,8 +92,10 @@ Cube::~Cube()
 void Cube::Init() {
 	programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+	glGenVertexArrays(1, &myVAO);
+	glBindVertexArray(myVAO);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	MatrixID = glGetUniformLocation(programID, "MVP");
 
 	glGenBuffers(1, &vertexbuffer);
@@ -103,16 +105,7 @@ void Cube::Init() {
 	glGenBuffers(1, &colorbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-}
 
-void Cube::Draw(const glm::mat4& viewMatrix) {
-	glUseProgram(programID);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-
-	glm::mat4 mvp = viewMatrix * getTransformMatrix();
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glVertexAttribPointer(
 		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 		3,                  // size
@@ -132,6 +125,14 @@ void Cube::Draw(const glm::mat4& viewMatrix) {
 		(void*)0                          // array buffer offset
 	);
 
+}
+
+void Cube::Draw(const glm::mat4& viewMatrix) {
+	glBindVertexArray(myVAO);
+	glUseProgram(programID);
+
+	glm::mat4 mvp = viewMatrix * getTransformMatrix();
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);

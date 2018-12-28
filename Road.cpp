@@ -86,8 +86,8 @@ void Road::Init() {
 		}
 	}
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+	glGenVertexArrays(1, &myVAO);
+	glBindVertexArray(myVAO);
 	MatrixID = glGetUniformLocation(programID, "MVP");
 
 	glGenBuffers(1, &vertexbuffer);
@@ -101,17 +101,9 @@ void Road::Init() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	// Generate mipmaps, by the way.
 	glGenerateMipmap(GL_TEXTURE_2D);
-}
-
-void Road::Draw(const glm::mat4& viewMatrix) {
-	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
-
-	glm::mat4 mvp = viewMatrix * getTransformMatrix();
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glVertexAttribPointer(
 		0,                  // attribute 0
 		3,                  // size, coordinates in position
@@ -128,7 +120,18 @@ void Road::Draw(const glm::mat4& viewMatrix) {
 		5 * sizeof(float),  // stride
 		(void*)(3 * sizeof(float))  // array buffer offset
 	);
+	glBindVertexArray(0);
+
+}
+
+void Road::Draw(const glm::mat4& viewMatrix) {
+	glBindVertexArray(myVAO);
+	glUseProgram(programID);
+//	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+//	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
+
+	glm::mat4 mvp = viewMatrix * getTransformMatrix();
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, textureSegments * sectorsPerTextureSegments * 6);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
 }

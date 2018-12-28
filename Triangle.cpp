@@ -23,23 +23,18 @@ Triangle::~Triangle()
 void Triangle::Init() {
 	programID = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+	glGenVertexArrays(1, &myVAO);
+	glBindVertexArray(myVAO);
 	MatrixID = glGetUniformLocation(programID, "MVP");
 
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glGenBuffers(1, &myVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
 	TextureManager::Inst()->LoadTexture("textures\\road3.jpg", TRIANGLE_IMAGE_ID);
-}
-
-void Triangle::Draw(const glm::mat4& viewMatrix) {
-	glUseProgram(programID);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-
+	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glVertexAttribPointer(
 		0,                  // attribute 0
 		3,                  // size
@@ -56,10 +51,14 @@ void Triangle::Draw(const glm::mat4& viewMatrix) {
 		5 * sizeof(float),  // stride
 		(void*)(3 * sizeof(float))  // array buffer offset
 	);
+	glBindVertexArray(0);
+}
+
+void Triangle::Draw(const glm::mat4& viewMatrix) {
+	glBindVertexArray(myVAO);
+	glUseProgram(programID);
 	glm::mat4 mvp = viewMatrix * getTransformMatrix();
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
-
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
 }

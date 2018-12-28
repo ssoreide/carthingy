@@ -14,8 +14,8 @@ public:
 
 private:
 	GLuint programID; // Shader program id
-	GLuint VertexArrayID;
-	GLuint vertexbuffer;
+	GLuint myVBO;
 	GLuint MatrixID;
+	GLuint VertexArrayID;
 };
 

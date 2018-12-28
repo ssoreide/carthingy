@@ -5,29 +5,29 @@
 
 Object::Object()
 {
-	positionVector = glm::vec3();
-	rotationVector = glm::vec3();
-	scalingVector = glm::vec3();
+	positionVector = glm::vec3(0.0);
+	rotationVector = glm::vec3(0.0);
+	scalingVector = glm::vec3(1.0);
 }
-
 
 Object::~Object()
 {
 }
 
 void Object::setPosition(const glm::vec3& pos) {
-	//positionMatrix = glm::translate(glm::mat4(1), pos);
 	positionVector = pos;
 }
 
 void Object::setScaling(const glm::vec3& scale) {
-	//scalingMatrix = glm::scale(scale);
 	scalingVector = scale;
 }
 
 void Object::setRotation(const glm::vec3& rot) {
-	//rotationMatrix = glm::toMat4(glm::quat(rot));
 	rotationVector = rot;
+}
+
+void Object::rotate(const glm::vec3& delta) {
+	rotationVector += delta;
 }
 
 glm::mat4 Object::getTransformMatrix() {

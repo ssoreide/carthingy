@@ -15,13 +15,14 @@ public:
 
 	unsigned int loadCubemap(vector<string> faces);
 	virtual void Init();
-	virtual void Draw(const glm::mat4& viewMatrix);
+	virtual void Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix);
 
 private:
 	GLuint programID; // Shader program id
-	GLuint VertexArrayID;
 	GLuint vertexbuffer;
-	GLuint MatrixID;
+	GLuint ProjectionID;
+	GLuint ViewID;
+	GLuint myVAO;
 	unsigned int cubemapTexture;
 
 };

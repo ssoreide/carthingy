@@ -1,4 +1,5 @@
 #pragma once
+#include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 class Object
@@ -14,6 +15,8 @@ public:
 	void setRotation(const glm::vec3& rotation);
 	void setScaling(const glm::vec3& scale);
 
+	void rotate(const glm::vec3& delta);
+
 	glm::mat4 getTransformMatrix();
 	glm::vec3 getPosition();
 	glm::vec3 getRotation();
@@ -23,5 +26,6 @@ protected:
 	glm::vec3 positionVector;
 	glm::vec3 rotationVector;
 	glm::vec3 scalingVector;
+	GLuint myVAO;
 };
 
