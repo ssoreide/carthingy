@@ -8,7 +8,7 @@
 #include "Road.h"
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "Skybox.h"
 using namespace std;
 
 const int width = 1920;
@@ -89,6 +89,9 @@ int main(void)
 	c1.setPosition(glm::vec3(3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1));
 	objects.push_back(&c1);
+
+	Skybox skybox;
+	skybox.Init();
 	
 	int error = glGetError();
 
@@ -128,8 +131,9 @@ int main(void)
 			(*it)->Draw(projectionView);
 			it++;
 		}
+		skybox.Draw(projectionView);
 
-		road.setRotation(glm::vec3(0.0f, 0.0f, scale));
+		road.setRotation(glm::vec3(0.0f, scale, 0.0f));
 		t1.setRotation(glm::vec3(3.0f, 0.0f, -scale));
 
 		glfwSwapBuffers(window);

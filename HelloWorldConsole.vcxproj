@@ -172,6 +172,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="LoadShaders.cpp" />
     <ClCompile Include="Road.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
@@ -181,12 +182,15 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Road.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.glsl" />
     <None Include="SimpleVertexShader.glsl" />
+    <None Include="SkyboxFragmentShader.glsl" />
+    <None Include="SkyboxVertexShader.glsl" />
     <None Include="TextureFragmentShader.glsl" />
     <None Include="TextureVertexShader.glsl" />
   </ItemGroup>
