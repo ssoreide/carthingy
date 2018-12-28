@@ -52,38 +52,38 @@ void Road::Init() {
 			PosAndTexCoordinates[p++] = 0;
 			PosAndTexCoordinates[p++] = sin(startAngle);
 			PosAndTexCoordinates[p++] = 1.0;
-			PosAndTexCoordinates[p++] = i / sectorsPerTextureSegments;
+			PosAndTexCoordinates[p++] = (float)i / sectorsPerTextureSegments;
 
 			PosAndTexCoordinates[p++] = cos(startAngle) * widthFactor;
 			PosAndTexCoordinates[p++] = 0;
 			PosAndTexCoordinates[p++] = sin(startAngle) * widthFactor;
 			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = i / sectorsPerTextureSegments;
+			PosAndTexCoordinates[p++] = (float)i / sectorsPerTextureSegments;
 
 			PosAndTexCoordinates[p++] = cos(endAngle);
 			PosAndTexCoordinates[p++] = 0;
 			PosAndTexCoordinates[p++] = sin(endAngle);
 			PosAndTexCoordinates[p++] = 1;
-			PosAndTexCoordinates[p++] = (i + 1) / sectorsPerTextureSegments;
+			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
 
 			// TRIANGLE 2
 			PosAndTexCoordinates[p++] = cos(startAngle) * widthFactor;
 			PosAndTexCoordinates[p++] = 0;
 			PosAndTexCoordinates[p++] = sin(startAngle) * widthFactor;
 			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = i / sectorsPerTextureSegments;
+			PosAndTexCoordinates[p++] = (float)i / sectorsPerTextureSegments;
 
 			PosAndTexCoordinates[p++] = cos(endAngle) * widthFactor;
 			PosAndTexCoordinates[p++] = 0;
 			PosAndTexCoordinates[p++] = sin(endAngle) * widthFactor;
 			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = (i + 1) / sectorsPerTextureSegments;
+			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
 
 			PosAndTexCoordinates[p++] = cos(endAngle);
 			PosAndTexCoordinates[p++] = 0;
 			PosAndTexCoordinates[p++] = sin(endAngle);
 			PosAndTexCoordinates[p++] = 1;
-			PosAndTexCoordinates[p++] = (i + 1) / sectorsPerTextureSegments;
+			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
 		}
 	}
 
@@ -120,7 +120,7 @@ void Road::Draw(const glm::mat4& viewMatrix) {
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
 		5 * sizeof(float),  // stride
-		(void*)0            // array buffer offset
+		(void*)(3 * sizeof(float))  // array buffer offset
 	);
 	glDrawArrays(GL_TRIANGLES, 0, textureSegments * sectorsPerTextureSegments * 6);
 	glDisableVertexAttribArray(0);

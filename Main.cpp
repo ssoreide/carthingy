@@ -75,13 +75,13 @@ int main(void)
 	Road road;
 	road.Init();
 	road.setPosition(glm::vec3(0, 0, 0));
-	road.setScaling(glm::vec3(4, 4, 4));
+	road.setScaling(glm::vec3(5, 5, 4));
 	objects.push_back(&road);
 
 	Triangle t1;
 	t1.Init();
 	t1.setPosition(glm::vec3(0, 0, 0));
-	t1.setScaling(glm::vec3(3, 3, 1));
+	t1.setScaling(glm::vec3(2, 2, 1));
 	objects.push_back(&t1);
 
 	Cube c1;
