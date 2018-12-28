@@ -18,20 +18,38 @@ const int height = 1080;
 
 Camera cam(width,height);
 
+bool key_up = false;
+bool key_down = false;
+bool key_left = false;
+bool key_right = false;
+
+void update_from_keys() {
+	if (key_up) {
+		cam.addVelocity(-0.001);
+	}
+	if (key_down) {
+		cam.addVelocity(0.001);
+	}
+	if (key_left) {
+		cam.rotate(glm::vec3(0, 0.001f, 0.0));
+	}
+	if (key_right) {
+		cam.rotate(glm::vec3(0, -0.001f, 0.0));
+	}
+}
+
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (key == GLFW_KEY_UP && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-//		cam.rotate(glm::vec3(-0.1, 0.0, 0.0));
-		cam.moveForward(-0.5);
+	if (key == GLFW_KEY_UP) {
+		key_up = (action == GLFW_PRESS || action == GLFW_REPEAT);
 	}
-	else if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-//		cam.rotate(glm::vec3(0.1, 0.0, 0.0));
-		cam.moveForward(0.5);
+	else if (key == GLFW_KEY_DOWN) {
+		key_down = (action == GLFW_PRESS || action == GLFW_REPEAT);
 	}
-	else if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		cam.rotate(glm::vec3(0, 0.1, 0.0));
+	else if (key == GLFW_KEY_LEFT) {
+		key_left = (action == GLFW_PRESS || action == GLFW_REPEAT);
 	}
-	else if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		cam.rotate(glm::vec3(0, -0.1, 0.0));
+	else if (key == GLFW_KEY_RIGHT) {
+		key_right = (action == GLFW_PRESS || action == GLFW_REPEAT);
 	}
 }
 
@@ -170,6 +188,8 @@ int main(void)
 
 		scale -= 0.0005;
 		pos = sin(scale);
+		update_from_keys();
+		cam.move(0.02);
 	}
 
 	glfwTerminate();
