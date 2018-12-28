@@ -6,9 +6,9 @@
 #define TRIANGLE_IMAGE_ID 1
 
 static const GLfloat g_vertex_buffer_data[] = {
-   -1.0f, -1.0f, 0.0f, 0, 0,
-   1.0f, -1.0f, 0.0f, 1, 0,
-   0.0f,  1.0f, 0.0f, 0.5, 1
+   -1.0f, -1.0f, 0.0f, 0.0, 0.0,
+   1.0f, -1.0f, 0.0f, 1.0, 0.0,
+   0.0f,  1.0f, 0.0f, 0.5, 1.0
 };
 
 Triangle::Triangle()
@@ -55,7 +55,7 @@ void Triangle::Draw(const glm::mat4& viewMatrix) {
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
 		5 * sizeof(float),  // stride
-		(void*)0            // array buffer offset
+		(void*)(3 * sizeof(float))  // array buffer offset
 	);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDisableVertexAttribArray(0);
