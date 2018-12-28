@@ -111,9 +111,15 @@ void Skybox::Init() {
 	ProjectionID = glGetUniformLocation(programID, "projection");
 	ViewID = glGetUniformLocation(programID, "view");
 
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glGenBuffers(1, &myVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), skyboxVertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+
+	glBindVertexArray(0);
 
 }
 
@@ -121,25 +127,12 @@ void Skybox::Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix
 	glBindVertexArray(myVAO);
 	glDepthMask(GL_FALSE);
 	glUseProgram(programID);
-//	skyboxShader.use();
-	// ... set view and projection matrix
-	//glBindVertexArray(skyboxVAO);
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-	//glDrawArrays(GL_TRIANGLES, 0, 36);
-	//glDepthMask(GL_TRUE);
-	// ... draw rest of the scene
-
-	// under her
-	//glUseProgram(programID);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 
 	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &projectionMatrix[0][0]);
-	glUniformMatrix4fv(ViewID, 1, GL_FALSE, &viewMatrix[0][0]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,	0,(void*)0 );
+	glm::mat4 view = glm::mat4(glm::mat3(viewMatrix)); // Removing translation from the camera/view
+	glUniformMatrix4fv(ViewID, 1, GL_FALSE, &view[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthMask(GL_TRUE);
-	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 }

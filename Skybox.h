@@ -19,7 +19,7 @@ public:
 
 private:
 	GLuint programID; // Shader program id
-	GLuint vertexbuffer;
+	GLuint myVBO;
 	GLuint ProjectionID;
 	GLuint ViewID;
 	GLuint myVAO;
