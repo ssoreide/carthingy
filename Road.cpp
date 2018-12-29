@@ -10,15 +10,13 @@
 
 using namespace std;
 
-/*static const GLfloat g_vertex_buffer_data[] = {
-	-1.0f, 0, 0.5f,
-	1.0f, 0, 0.5f,
-	0.3f,  0, 0.0f,
-};*/
+float widthFactor = 0.7f;
+float pi = (float)atan(1) * 4;
+int texPerControlPoint = 5;
+int segmentsPerTex = 10;
 
-int textureSegments = 30;
-int sectorsPerTextureSegments = 10;
-int totalSegments = textureSegments * sectorsPerTextureSegments;
+int arraySize;
+
 
 Road::Road()
 {
@@ -31,21 +29,25 @@ Road::~Road()
 
 void Road::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
-	float widthFactor = 0.7f;
-	float pi = (float)atan(1) * 4;
-	int texPerControlPoint = 5;
-	int segmentsPerTex = 5;
+	
 	
 
 	std::vector<vec2> controlPoints;
-	controlPoints.push_back(vec2(0.0, 0.0));
-	controlPoints.push_back(vec2(0.0, 5.0));
-	controlPoints.push_back(vec2(3.0, 10.0));
-	controlPoints.push_back(vec2(-4.0, 11.0));
-	controlPoints.push_back(vec2(-4.0, 4.0));
+	controlPoints.push_back(10.0f * vec2(0.0, 0.0));
+	controlPoints.push_back(10.0f * vec2(1.0, 0.0));
+	controlPoints.push_back(10.0f * vec2(2.0, 0.0));
+	controlPoints.push_back(10.0f * vec2(3.0, 0.0));
+	controlPoints.push_back(10.0f * vec2(4.0, 1.0));
+	controlPoints.push_back(10.0f * vec2(3.0, 2.0));
+	controlPoints.push_back(10.0f * vec2(2.0, 2.0));
+	controlPoints.push_back(10.0f * vec2(2.0, 3.0));
+	controlPoints.push_back(10.0f * vec2(1.0, 4.0));
+	controlPoints.push_back(10.0f * vec2(0.0, 3.0));
+	controlPoints.push_back(10.0f * vec2(0.0, 2.0));
+	controlPoints.push_back(10.0f * vec2(0.0, 1.0));
 	Spline spline(controlPoints, widthFactor, texPerControlPoint * segmentsPerTex);
 
-	int arraySize = controlPoints.size() * segmentsPerTex * texPerControlPoint * 5 * 6;
+	arraySize = controlPoints.size() * segmentsPerTex * texPerControlPoint * 5 * 6;
 
 	GLfloat * PosAndTexCoordinates = new GLfloat[arraySize];
 	int p = 0;
@@ -98,11 +100,11 @@ void Road::Init() {
 			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
 
 			//xyz
-			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[0];
+			PosAndTexCoordinates[p++] = spline.getOuterPoint(s)[0];
 			PosAndTexCoordinates[p++] = 0.0f;
-			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[1];
+			PosAndTexCoordinates[p++] = spline.getOuterPoint(s)[1];
 			//uv
-			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
 		}
 	}
@@ -157,6 +159,6 @@ void Road::Draw(const Camera& cam) {
 	glm::mat4 mvp = projectionView * getTransformMatrix();
 
 	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, textureSegments * sectorsPerTextureSegments * 6);
+	glDrawArrays(GL_TRIANGLES, 0, arraySize / 5);
 	glBindVertexArray(0);
 }
