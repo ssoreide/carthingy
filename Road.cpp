@@ -4,6 +4,7 @@
 #include <iostream>
 #include "TextureManager.h"
 #include "Camera.h"
+#include "Splines.h"
 
 #define ROAD_IMAGE_ID 2
 
@@ -32,58 +33,83 @@ void Road::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 	float widthFactor = 0.7f;
 	float pi = (float)atan(1) * 4;
-	int vps = 6; //vertices per segment
-	int cps = 5 * vps; //components per segment
-	int arraySize = textureSegments * sectorsPerTextureSegments * cps;
+	int texPerControlPoint = 5;
+	int segmentsPerTex = 5;
+	
 
-	GLfloat *PosAndTexCoordinates = new GLfloat[arraySize];
+	std::vector<vec2> controlPoints;
+	controlPoints.push_back(vec2(0.0, 0.0));
+	controlPoints.push_back(vec2(0.0, 5.0));
+	controlPoints.push_back(vec2(3.0, 10.0));
+	controlPoints.push_back(vec2(-4.0, 11.0));
+	controlPoints.push_back(vec2(-4.0, 4.0));
+	Spline spline(controlPoints, widthFactor, texPerControlPoint * segmentsPerTex);
+
+	int arraySize = controlPoints.size() * segmentsPerTex * texPerControlPoint * 5 * 6;
+
+	GLfloat * PosAndTexCoordinates = new GLfloat[arraySize];
 	int p = 0;
-	for (int ts = 0; ts < textureSegments; ts++) {
-		double sectorOffset = (2 * pi / textureSegments) * ts;
+	for (int i = 0; i < controlPoints.size() * texPerControlPoint; i++) {
+		for (int j = 0; j < segmentsPerTex; j++) {
+			int s = i * segmentsPerTex + j;
+			int sn = (s + 1) % (arraySize / 30);
 
-		for (int i = 0; i < sectorsPerTextureSegments; i++) {
-			float startAngle = (float)(i * 2 * pi / totalSegments) + sectorOffset;
-			float endAngle = (float)((i + 1) * 2 * pi / totalSegments) + sectorOffset;
-			
-			// TRIANGLE 1
-			PosAndTexCoordinates[p++] = cos(startAngle);
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = sin(startAngle);
-			PosAndTexCoordinates[p++] = 1.0;
-			PosAndTexCoordinates[p++] = (float)i / sectorsPerTextureSegments;
+			//Triangle 1:
+			//xyz
+			PosAndTexCoordinates[p++] = spline.getOuterPoint(s)[0];
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = spline.getOuterPoint(s)[1];
+			//uv
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
 
-			PosAndTexCoordinates[p++] = cos(startAngle) * widthFactor;
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = sin(startAngle) * widthFactor;
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = (float)i / sectorsPerTextureSegments;
+			//xyz
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[0];
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[1];
+			//uv
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
 
-			PosAndTexCoordinates[p++] = cos(endAngle);
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = sin(endAngle);
-			PosAndTexCoordinates[p++] = 1;
-			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
+			//xyz
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(sn)[0];
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(sn)[1];
+			//uv
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
 
-			// TRIANGLE 2
-			PosAndTexCoordinates[p++] = cos(startAngle) * widthFactor;
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = sin(startAngle) * widthFactor;
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = (float)i / sectorsPerTextureSegments;
 
-			PosAndTexCoordinates[p++] = cos(endAngle) * widthFactor;
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = sin(endAngle) * widthFactor;
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
+			//Triangle 2:
+			//xyz
+			PosAndTexCoordinates[p++] = spline.getOuterPoint(sn)[0];
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = spline.getOuterPoint(sn)[1];
+			//uv
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
 
-			PosAndTexCoordinates[p++] = cos(endAngle);
-			PosAndTexCoordinates[p++] = 0;
-			PosAndTexCoordinates[p++] = sin(endAngle);
-			PosAndTexCoordinates[p++] = 1;
-			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
+			//xyz
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(sn)[0];
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(sn)[1];
+			//uv
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
+
+			//xyz
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[0];
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[1];
+			//uv
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
 		}
 	}
+
+	
+	
+	
 
 	glGenVertexArrays(1, &myVAO);
 	glBindVertexArray(myVAO);

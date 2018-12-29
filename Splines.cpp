@@ -16,7 +16,7 @@ Spline::Spline(std::vector<vec2> controlPoints, float width, int pointsPerSegmen
 		vec2 p1 = pointsOnCurve[(i + 1) % pointsOnCurve.size()];
 		vec2 delta = p1 - p0;
 		//towards center of closed curve going counter-clockwise
-		vec2 normalVector = vec2(-delta[1], delta[0]);
+		vec2 normalVector = normalize(vec2(-delta[1], delta[0]));
 		innerPoints.push_back(p0 + width * normalVector);
 		outerPoints.push_back(p0 - width * normalVector);
 	}
