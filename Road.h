@@ -13,8 +13,6 @@ public:
 	virtual void Draw(const glm::mat4& viewMatrix);
 
 private:
-	GLuint programID; // Shader program id
 	GLuint vertexbuffer;
-	GLuint MatrixID;
 };
 

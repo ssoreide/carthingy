@@ -4,7 +4,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-
 using namespace std;
 
 vector<std::string> faces
@@ -104,12 +103,12 @@ Skybox::~Skybox() {
 void Skybox::Init() {
 	cubemapTexture = loadCubemap(faces);
 
-	programID = LoadShaders("SkyboxVertexShader.glsl", "SkyboxFragmentShader.glsl");
+	myShader = LoadShaders("SkyboxVertexShader.glsl", "SkyboxFragmentShader.glsl");
 
 	glGenVertexArrays(1, &myVAO);
 	glBindVertexArray(myVAO);
-	ProjectionID = glGetUniformLocation(programID, "projection");
-	ViewID = glGetUniformLocation(programID, "view");
+	ProjectionID = glGetUniformLocation(myShader, "projection");
+	ViewID = glGetUniformLocation(myShader, "view");
 
 	glGenBuffers(1, &myVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -126,7 +125,7 @@ void Skybox::Init() {
 void Skybox::Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
 	glBindVertexArray(myVAO);
 	glDepthMask(GL_FALSE);
-	glUseProgram(programID);
+	glUseProgram(myShader);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 
 	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &projectionMatrix[0][0]);

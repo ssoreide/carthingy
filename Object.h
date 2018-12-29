@@ -30,5 +30,8 @@ protected:
 	glm::vec3 rotationVector;
 	glm::vec3 scalingVector;
 	GLuint myVAO;
+	GLuint myVBO;
+	GLuint shaderArgMVP;
+	GLuint myShader;
 };
 

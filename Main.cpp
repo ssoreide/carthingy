@@ -25,16 +25,16 @@ bool key_right = false;
 
 void update_from_keys() {
 	if (key_up) {
-		cam.addVelocity(-0.001);
+		cam.addVelocity(-0.001f);
 	}
 	if (key_down) {
-		cam.addVelocity(0.001);
+		cam.addVelocity(0.001f);
 	}
 	if (key_left) {
-		cam.rotate(glm::vec3(0, 0.001f, 0.0));
+		cam.rotate(glm::vec3(0, 0.001f, 0.0f));
 	}
 	if (key_right) {
-		cam.rotate(glm::vec3(0, -0.001f, 0.0));
+		cam.rotate(glm::vec3(0, -0.001f, 0.0f));
 	}
 }
 
@@ -129,13 +129,13 @@ int main(void)
 	t1.Init();
 	t1.setPosition(glm::vec3(0, 0, 0));
 	t1.setScaling(glm::vec3(2, 2, 1));
-//	objects.push_back(&t1);
+	objects.push_back(&t1);
 
 	Cube c1;
 	c1.Init();
 	c1.setPosition(glm::vec3(-3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1));
-//	objects.push_back(&c1);
+	objects.push_back(&c1);
 
 	Cube c2;
 	c2.Init();
@@ -189,7 +189,7 @@ int main(void)
 		scale -= 0.0005;
 		pos = sin(scale);
 		update_from_keys();
-		cam.move(0.02);
+		cam.move(0.02f);
 	}
 
 	glfwTerminate();

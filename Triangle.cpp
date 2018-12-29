@@ -21,11 +21,11 @@ Triangle::~Triangle()
 }
 
 void Triangle::Init() {
-	programID = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
+	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
 	glGenVertexArrays(1, &myVAO);
 	glBindVertexArray(myVAO);
-	MatrixID = glGetUniformLocation(programID, "MVP");
+	shaderArgMVP = glGetUniformLocation(myShader, "MVP");
 
 	glGenBuffers(1, &myVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -56,9 +56,9 @@ void Triangle::Init() {
 
 void Triangle::Draw(const glm::mat4& viewMatrix) {
 	glBindVertexArray(myVAO);
-	glUseProgram(programID);
+	glUseProgram(myShader);
 	glm::mat4 mvp = viewMatrix * getTransformMatrix();
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);
 }

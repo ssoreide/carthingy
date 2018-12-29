@@ -90,13 +90,13 @@ Cube::~Cube()
 }
 
 void Cube::Init() {
-	programID = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
+	myShader = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
 
 	glGenVertexArrays(1, &myVAO);
 	glBindVertexArray(myVAO);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
-	MatrixID = glGetUniformLocation(programID, "MVP");
+	shaderArgMVP = glGetUniformLocation(myShader, "MVP");
 
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -116,10 +116,10 @@ void Cube::Init() {
 
 void Cube::Draw(const glm::mat4& viewMatrix) {
 	glBindVertexArray(myVAO);
-	glUseProgram(programID);
+	glUseProgram(myShader);
 
 	glm::mat4 mvp = viewMatrix * getTransformMatrix();
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &mvp[0][0]);
+	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	glBindVertexArray(0);
 }
