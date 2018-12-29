@@ -173,6 +173,7 @@
     <ClCompile Include="LoadShaders.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="Splines.cpp" />
     <ClCompile Include="TexturedObject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Triangle.cpp" />
