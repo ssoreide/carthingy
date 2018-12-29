@@ -79,6 +79,7 @@ void Road::Init() {
 
 			PosAndTexCoordinates[p++] = cos(endAngle);
 			PosAndTexCoordinates[p++] = 0;
+	
 			PosAndTexCoordinates[p++] = sin(endAngle);
 			PosAndTexCoordinates[p++] = 1;
 			PosAndTexCoordinates[p++] = (float)(i + 1) / sectorsPerTextureSegments;
@@ -126,10 +127,8 @@ void Road::Init() {
 void Road::Draw(const Camera& cam) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-//	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-//	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
-
-	glm::mat4 mvp = cam.getTransformMatrix() * getTransformMatrix();
+	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
+	glm::mat4 mvp = projectionView * getTransformMatrix();
 	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, textureSegments * sectorsPerTextureSegments * 6);
 	glBindVertexArray(0);
