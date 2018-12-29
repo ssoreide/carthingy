@@ -29,8 +29,8 @@ Road::~Road()
 
 void Road::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
-	float widthFactor = 0.7;
-	float pi = atan(1) * 4;
+	float widthFactor = 0.7f;
+	float pi = (float)atan(1) * 4;
 	int vps = 6; //vertices per segment
 	int cps = 5 * vps; //components per segment
 	int arraySize = textureSegments * sectorsPerTextureSegments * cps;
@@ -41,8 +41,8 @@ void Road::Init() {
 		double sectorOffset = (2 * pi / textureSegments) * ts;
 
 		for (int i = 0; i < sectorsPerTextureSegments; i++) {
-			float startAngle = (i * 2 * pi / totalSegments) + sectorOffset;
-			float endAngle = ((i + 1) * 2 * pi / totalSegments) + sectorOffset;
+			float startAngle = (float)(i * 2 * pi / totalSegments) + sectorOffset;
+			float endAngle = (float)((i + 1) * 2 * pi / totalSegments) + sectorOffset;
 			
 			// TRIANGLE 1
 			PosAndTexCoordinates[p++] = cos(startAngle);
@@ -88,8 +88,8 @@ void Road::Init() {
 	glBindVertexArray(myVAO);
 	shaderArgMVP = glGetUniformLocation(myShader, "MVP");
 
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glGenBuffers(1, &myVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, arraySize * sizeof(GLfloat), PosAndTexCoordinates, GL_STATIC_DRAW);
 
 	TextureManager::Inst()->LoadTexture("textures\\road3.jpg", ROAD_IMAGE_ID);
@@ -101,7 +101,7 @@ void Road::Init() {
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glVertexAttribPointer(
 		0,                  // attribute 0
 		3,                  // size, coordinates in position

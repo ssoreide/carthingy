@@ -11,6 +11,6 @@ public:
 	virtual void Init();
 	virtual void Draw(const glm::mat4& viewMatrix);
 private:
-	GLuint vertexbuffer;
+	GLuint normalbuffer;
 };
 
