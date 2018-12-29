@@ -25,16 +25,16 @@ bool key_right = false;
 
 void update_from_keys() {
 	if (key_up) {
-		cam.addVelocity(-0.001f);
+		cam.addVelocity(-0.1f);
 	}
 	if (key_down) {
-		cam.addVelocity(0.001f);
+		cam.addVelocity(0.1f);
 	}
 	if (key_left) {
-		cam.rotate(glm::vec3(0, 0.001f, 0.0f));
+		cam.rotate(glm::vec3(0, 0.01f, 0.0f));
 	}
 	if (key_right) {
-		cam.rotate(glm::vec3(0, -0.001f, 0.0f));
+		cam.rotate(glm::vec3(0, -0.01f, 0.0f));
 	}
 }
 
