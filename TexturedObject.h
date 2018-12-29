@@ -2,12 +2,11 @@
 #include "Object.h"
 #include <GL/glew.h>
 
-class Triangle :
-	public Object
+class TexturedObject : public Object
 {
 public:
-	Triangle();
-	~Triangle();
+	TexturedObject();
+	~TexturedObject();
 
 	virtual void Init();
 	virtual void Draw(const Camera& cam);

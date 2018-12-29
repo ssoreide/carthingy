@@ -1,4 +1,5 @@
 #pragma once
+#include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 class Camera;
@@ -16,14 +17,23 @@ public:
 	void setRotation(const glm::vec3& rotation);
 	void setScaling(const glm::vec3& scale);
 
-	glm::mat4 getTransformMatrix();
-	glm::vec3 getPosition() const;
+	void rotate(const glm::vec3& delta);
+	void move(float distance); 
+	void addVelocity(float delta) { velocity += delta; }
+
+	glm::mat4 getTransformMatrix() const;
+	glm::vec3 getPosition();
 	glm::vec3 getRotation();
 	glm::vec3 getScaling();
 
 protected:
+	float velocity;
 	glm::vec3 positionVector;
 	glm::vec3 rotationVector;
 	glm::vec3 scalingVector;
+	GLuint myVAO;
+	GLuint myVBO;
+	GLuint shaderArgMVP;
+	GLuint myShader;
 };
 

@@ -1,16 +1,16 @@
 #pragma once
 #include "Object.h"
-class Camera :
-	public Object
+
+class Camera : public Object
 {
 public:
 	Camera(int width, int height);
 	~Camera();
 	void Init();
-	void Draw(const Camera& cam);
-	void LookAt(glm::vec3 object);
-	glm::mat4 Projection;
-	glm::mat4 ViewMatrix;
-	glm::mat4 getViewProjection() const;
+	void Draw(const Camera& cam); // Will probably not be used
+
+	glm::mat4 getProjection() const { return projection;  }
+private:
+	glm::mat4 projection;
 };
 

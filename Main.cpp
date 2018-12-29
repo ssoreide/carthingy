@@ -1,6 +1,8 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <glm/ext.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <GLFW/glfw3.h>
 #include "Triangle.h"
 #include "Cube.h"
@@ -8,17 +10,65 @@
 #include "Road.h"
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "Skybox.h"
 using namespace std;
 
-int width = 1920;
-int height = 1080;
+const int width = 1920;
+const int height = 1080;
+
+Camera cam(width,height);
+
+bool key_up = false;
+bool key_down = false;
+bool key_left = false;
+bool key_right = false;
+
+void update_from_keys() {
+	if (key_up) {
+		cam.addVelocity(-0.001f);
+	}
+	if (key_down) {
+		cam.addVelocity(0.001f);
+	}
+	if (key_left) {
+		cam.rotate(glm::vec3(0, 0.001f, 0.0f));
+	}
+	if (key_right) {
+		cam.rotate(glm::vec3(0, -0.001f, 0.0f));
+	}
+}
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS) std::cout << "Raskere";
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) std::cout << "Treigere";
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) std::cout << "Venstre";
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) std::cout << "Høyre";
+	if (key == GLFW_KEY_UP) {
+		key_up = (action == GLFW_PRESS || action == GLFW_REPEAT);
+	}
+	else if (key == GLFW_KEY_DOWN) {
+		key_down = (action == GLFW_PRESS || action == GLFW_REPEAT);
+	}
+	else if (key == GLFW_KEY_LEFT) {
+		key_left = (action == GLFW_PRESS || action == GLFW_REPEAT);
+	}
+	else if (key == GLFW_KEY_RIGHT) {
+		key_right = (action == GLFW_PRESS || action == GLFW_REPEAT);
+	}
+}
+
+void printMatrix(glm::mat4 m) {
+	cout << "Matrix:\n" << glm::to_string(m);
+
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+
+	glm::decompose(m, scale, rotation, translation, skew, perspective);
+
+	cout << "Scale: " << glm::to_string(scale) << "\n";
+	cout << "rotation: " << glm::to_string(glm::eulerAngles(rotation)) << "\n";
+	cout << "translation: " << glm::to_string(translation) << "\n";
+	cout << "skew: " << glm::to_string(skew) << "\n";
+	cout << "perspective: " << glm::to_string(perspective) << "\n\n";
 }
 
 int main(void)
@@ -67,28 +117,44 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	Camera cam(width, height);
-	cam.setPosition(glm::vec3(0, 6, 6));
-
 	vector<Object*> objects;
 
 	Road road;
 	road.Init();
 	road.setPosition(glm::vec3(0, 0, 0));
-	road.setScaling(glm::vec3(4, 4, 4));
+	road.setScaling(glm::vec3(15, 15, 15));
 	objects.push_back(&road);
 
 	Triangle t1;
 	t1.Init();
 	t1.setPosition(glm::vec3(0, 0, 0));
-	t1.setScaling(glm::vec3(3, 3, 1));
+	t1.setScaling(glm::vec3(2, 2, 1));
 	objects.push_back(&t1);
 
 	Cube c1;
 	c1.Init();
-	c1.setPosition(glm::vec3(3, 0, 0));
-	c1.setScaling(glm::vec3(1, 1, 1));
-	//objects.push_back(&c1);
+	c1.setPosition(glm::vec3(-3, 0, 0));
+	c1.setScaling(glm::vec3(1, 1, 1000));
+	objects.push_back(&c1);
+
+	Cube c2;
+	c2.Init();
+	c2.setPosition(glm::vec3(3, 0, 0));
+	c2.setScaling(glm::vec3(1, 1, 1));
+//	objects.push_back(&c2);
+
+	Cube c3;
+	c3.Init();
+	c3.setPosition(glm::vec3(0, 0, -5));
+	c3.setScaling(glm::vec3(0.5, 0.5, 0.5));
+//	objects.push_back(&c3);
+
+	Skybox skybox;
+	skybox.Init();
+
+	glm::mat4 test = glm::mat4(1);
+	cout << "Newly constructed:\n";
+	printMatrix(test);
 	
 	int error = glGetError();
 
@@ -98,26 +164,16 @@ int main(void)
 
 	double scale = 0.0;
 	double pos = 0;
-//	cam.LookAt(t1.getTransformMatrix()[3]);
 
-	cout << "Camera: " + glm::to_string(cam.getTransformMatrix()) + "\n";
-	cam.setRotation(glm::vec3(0, 0, 0));
-	cout << "After rotation: " + glm::to_string(cam.getTransformMatrix()) +"\n";
+	cam.setPosition(glm::vec3(0, 2, 20));
 
-	
-
-	error = glGetError();
-	if (error != GL_NO_ERROR) {
-		cout << "OpenGL error: " << error << "\n";
-	}
 	while (!glfwWindowShouldClose(window))
 	{
+		glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 
-		cam.LookAt(glm::vec3(0.0, 0.0, 0.0));
-		//glm::mat4 projectionView = Projection * View;
-
-		cam.setRotation(glm::vec3(scale, 0 , 0));
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		skybox.Draw(cam.getProjection(), cam.getTransformMatrix());
 
 		vector<Object*>::iterator it = objects.begin();
 		while (it != objects.end()) {
@@ -125,7 +181,6 @@ int main(void)
 			it++;
 		}
 
-		road.setRotation(glm::vec3(0.0f, 0.0f, scale));
 		t1.setRotation(glm::vec3(3.0f, 0.0f, -scale));
 
 		glfwSwapBuffers(window);
@@ -133,6 +188,8 @@ int main(void)
 
 		scale -= 0.0005;
 		pos = sin(scale);
+		update_from_keys();
+		cam.move(0.02f);
 	}
 
 	glfwTerminate();

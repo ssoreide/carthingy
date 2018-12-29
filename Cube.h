@@ -11,10 +11,9 @@ public:
 	virtual void Init();
 	virtual void Draw(const Camera& cam);
 private:
-	GLuint programID; // Shader program id
-	GLuint VertexArrayID;
-	GLuint vertexbuffer;
-	GLuint colorbuffer;
-	GLuint MatrixID;
+	GLuint shaderArgLightPos;
+	GLuint shaderArgProjection;
+	GLuint shaderArgModel;
+	GLuint shaderArgView;
 };
 
