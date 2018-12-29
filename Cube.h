@@ -9,8 +9,11 @@ public:
 	~Cube();
 
 	virtual void Init();
-	virtual void Draw(const glm::mat4& viewMatrix);
+	virtual void Draw(const Camera& cam);
 private:
-	GLuint normalbuffer;
+	GLuint shaderArgLightPos;
+	GLuint shaderArgProjection;
+	GLuint shaderArgModel;
+	GLuint shaderArgView;
 };
 

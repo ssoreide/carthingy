@@ -1,6 +1,7 @@
 #include "Triangle.h"
 #include "LoadShaders.h"
 #include "TextureManager.h"
+#include "Camera.h"
 #include <iostream>
 
 #define TRIANGLE_IMAGE_ID 1
@@ -54,10 +55,12 @@ void Triangle::Init() {
 	glBindVertexArray(0);
 }
 
-void Triangle::Draw(const glm::mat4& viewMatrix) {
+void Triangle::Draw(const Camera& cam) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-	glm::mat4 mvp = viewMatrix * getTransformMatrix();
+	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
+
+	glm::mat4 mvp = projectionView * getTransformMatrix();
 	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glBindVertexArray(0);

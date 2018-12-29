@@ -7,9 +7,9 @@ public:
 	Camera(int width, int height);
 	~Camera();
 	void Init();
-	void Draw(const glm::mat4& viewMatrix); // Will probably not be used
+	void Draw(const Camera& cam); // Will probably not be used
 
-	glm::mat4 getProjection() { return projection;  }
+	glm::mat4 getProjection() const { return projection;  }
 private:
 	glm::mat4 projection;
 };

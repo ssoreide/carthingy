@@ -37,7 +37,7 @@ void Object::move(float delta_time) {
 	positionVector += direction * velocity * delta_time;
 }
 
-glm::mat4 Object::getTransformMatrix() {
+glm::mat4 Object::getTransformMatrix() const {
 	glm::mat4 positionMatrix = glm::translate(glm::mat4(1), positionVector);
 	glm::mat4 rotationMatrix = glm::toMat4(glm::quat(rotationVector));
 	glm::mat4 scalingMatrix = glm::scale(scalingVector);

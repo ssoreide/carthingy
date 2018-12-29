@@ -10,6 +10,6 @@ public:
 	~Road();
 
 	virtual void Init();
-	virtual void Draw(const glm::mat4& viewMatrix);
+	virtual void Draw(const Camera& cam);
 };
 

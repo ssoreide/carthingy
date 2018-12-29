@@ -3,6 +3,7 @@
 #include <math.h>
 #include <iostream>
 #include "TextureManager.h"
+#include "Camera.h"
 
 #define ROAD_IMAGE_ID 2
 
@@ -122,13 +123,13 @@ void Road::Init() {
 
 }
 
-void Road::Draw(const glm::mat4& viewMatrix) {
+void Road::Draw(const Camera& cam) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
 //	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 //	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
 
-	glm::mat4 mvp = viewMatrix * getTransformMatrix();
+	glm::mat4 mvp = cam.getTransformMatrix() * getTransformMatrix();
 	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, textureSegments * sectorsPerTextureSegments * 6);
 	glBindVertexArray(0);
