@@ -185,6 +185,7 @@
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="Splines.h" />
     <ClInclude Include="TexturedObject.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Triangle.h" />

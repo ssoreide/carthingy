@@ -75,6 +75,9 @@
     <ClInclude Include="TexturedObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Splines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.glsl">

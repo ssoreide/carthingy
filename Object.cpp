@@ -55,6 +55,11 @@ glm::mat4 Object::getTransformMatrix() const {
 	return positionMatrix * rotationMatrix * scalingMatrix;
 }
 
-glm::vec3 Object::getPosition() const{
+glm::vec3 Object::getPosition() const {
 	return positionVector;
 }
+
+glm::vec3 Object::getRotation() const {
+	return rotationVector;
+}
+

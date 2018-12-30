@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Splines.h"
 #include "Cube.h"
+#include <glm/ext.hpp>
 
 #define ROAD_IMAGE_ID 2
 
@@ -46,7 +47,9 @@ void Road::Init() {
 	controlPoints.push_back(10.0f * vec2(0.0, 1.0));
 	Spline spline(controlPoints, widthFactor, texPerControlPoint * segmentsPerTex);
 
-	arraySize = controlPoints.size() * segmentsPerTex * texPerControlPoint * 5 * 6;
+	int splinesegments = controlPoints.size() * segmentsPerTex * texPerControlPoint;
+
+	arraySize = splinesegments * 5 * 6;
 
 	GLfloat * PosAndTexCoordinates = new GLfloat[arraySize];
 	int p = 0;
@@ -148,9 +151,18 @@ void Road::Init() {
 	);
 	glBindVertexArray(0);
 
-//	Object *gate = createGate();
-//	addChild(gate);
+	int number_of_gates = 20;
+	for (int i = 0; i < number_of_gates; i++) {
+		Object *gate = createGate();
 
+		gate->setPosition(spline.getMidPoint((splinesegments * i / number_of_gates)));
+		gate->setRotation(spline.getRotation((splinesegments * i / number_of_gates)));
+
+		cout << "Midpoint for gate: " << i << " " << glm::to_string(gate->getPosition()) << "\n";
+		cout << "Rotation for gate: " << i << " " << glm::to_string(gate->getRotation()) << "\n";
+
+		addChild(gate);
+	}
 
 
 
