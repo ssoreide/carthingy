@@ -5,6 +5,7 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <map>
 using namespace std;
 
 #include <stdlib.h>
@@ -12,7 +13,7 @@ using namespace std;
 
 #include <GL/glew.h>
 
-GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
+GLuint LoadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path) {
 
 	// Create the shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
