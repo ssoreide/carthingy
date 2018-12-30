@@ -21,11 +21,9 @@ GLuint LoadShaders(const std::string& vertex_file_path, const std::string& fragm
 
 	map<std::string, GLuint>::iterator it = cache.find(key);
 	if (it != cache.end()) {
-		cout << "Using cached shader\n";
 		result = it->second;
 	}
 	else {
-
 		// Create the shaders
 		GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 		GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
