@@ -1,6 +1,9 @@
 #pragma once
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <vector>
+
+using namespace std;
 
 class Camera;
 
@@ -10,8 +13,8 @@ public:
 	Object();
 	~Object();
 
-	virtual void Init() = 0;
-	virtual void Draw(const Camera& cam) = 0;
+	virtual void Init() {};
+	virtual void Draw(const Camera& cam, const glm::mat4& transform);
 
 	void setPosition(const glm::vec3& pos);
 	void setRotation(const glm::vec3& rotation);
@@ -21,12 +24,15 @@ public:
 	void move(float distance); 
 	void addVelocity(float delta) { velocity += delta; }
 
+	void addChild(Object* obj);
+
 	glm::mat4 getTransformMatrix() const;
 	glm::vec3 getPosition() const;
 	glm::vec3 getRotation() const;
 	glm::vec3 getScaling() const;
 
 protected:
+	vector<Object*> children;
 	float velocity;
 	glm::vec3 positionVector;
 	glm::vec3 rotationVector;

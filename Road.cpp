@@ -151,14 +151,15 @@ void Road::Init() {
 
 }
 
-void Road::Draw(const Camera& cam) {
+void Road::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
 
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
-	glm::mat4 mvp = projectionView * getTransformMatrix();
+	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;
 
 	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, arraySize / 5);
 	glBindVertexArray(0);
+	Object::Draw(cam, getTransformMatrix() * transform);
 }

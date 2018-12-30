@@ -93,7 +93,7 @@ void Cube::Init() {
 	glBindVertexArray(0);
 }
 
-void Cube::Draw(const Camera& cam) {
+void Cube::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
 	glm::vec3 lp = glm::vec3(1, 1, 20);
@@ -102,9 +102,10 @@ void Cube::Draw(const Camera& cam) {
 	glUniformMatrix4fv(shaderArgProjection, 1, GL_FALSE, &projection[0][0]);
 	glm::mat4 view = glm::inverse(cam.getTransformMatrix());
 	glUniformMatrix4fv(shaderArgView, 1, GL_FALSE, &view[0][0]);
-	glm::mat4 model = getTransformMatrix();
+	glm::mat4 model = transform*getTransformMatrix();
 	glUniformMatrix4fv(shaderArgModel, 1, GL_FALSE, &model[0][0]);
 	glUniform3fv(shaderArgLightPos, 1, &lp[0]);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	glBindVertexArray(0);
+	Object::Draw(cam, model);
 }

@@ -9,7 +9,7 @@ public:
 	~Cube();
 
 	virtual void Init();
-	virtual void Draw(const Camera& cam);
+	virtual void Draw(const Camera& cam, const glm::mat4& transform);
 private:
 	GLuint shaderArgLightPos;
 	GLuint shaderArgProjection;

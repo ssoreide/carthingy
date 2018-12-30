@@ -10,7 +10,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::Draw(const Camera& cam)
+void Camera::Draw(const Camera& cam, const glm::mat4& transform)
 {
 }
 

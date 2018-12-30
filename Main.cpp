@@ -127,8 +127,21 @@ int main(void)
 
 	Triangle t1;
 	t1.Init();
-	t1.setPosition(glm::vec3(0, 0, 0));
+	t1.setPosition(glm::vec3(0, 2, 0));
 	t1.setScaling(glm::vec3(2, 2, 1));
+
+	Cube tc1;
+	tc1.Init();
+	tc1.setPosition(glm::vec3(1, 0, 0));
+	tc1.setScaling(glm::vec3(0.2, 0.2, 0.2));
+	t1.addChild(&tc1);
+
+	Cube tc2;
+	tc2.Init();
+	tc2.setPosition(glm::vec3(-1, 0, 0));
+	tc2.setScaling(glm::vec3(0.2, 0.2, 0.2));
+	t1.addChild(&tc2);
+
 	objects.push_back(&t1);
 
 	Cube c1;
@@ -177,7 +190,7 @@ int main(void)
 
 		vector<Object*>::iterator it = objects.begin();
 		while (it != objects.end()) {
-			(*it)->Draw(cam);
+			(*it)->Draw(cam, glm::mat4(1));
 			it++;
 		}
 

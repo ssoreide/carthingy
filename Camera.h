@@ -7,7 +7,7 @@ public:
 	Camera(int width, int height);
 	~Camera();
 	void Init();
-	void Draw(const Camera& cam); // Will probably not be used
+	void Draw(const Camera& cam, const glm::mat4& transform);
 
 	glm::mat4 getProjection() const { return projection;  }
 private:

@@ -30,6 +30,17 @@ void Object::rotate(const glm::vec3& delta) {
 	rotationVector += delta;
 }
 
+void Object::Draw(const Camera& cam, const glm::mat4& transform) {
+	glm::mat4 t = transform * getTransformMatrix();
+	for (int i = 0; i < children.size(); i++) {
+		children[i]->Draw(cam, t);
+	}
+}
+
+void Object::addChild(Object* obj) {
+	children.push_back(obj);
+}
+
 void Object::move(float delta_time) {
 	glm::vec3 direction = getTransformMatrix()*glm::vec4(0, 0, 1, 0);
 
