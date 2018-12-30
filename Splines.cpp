@@ -29,3 +29,14 @@ vec2 Spline::getInnerPoint(unsigned int index) {
 vec2 Spline::getOuterPoint(unsigned int index) {
 	return outerPoints[index];
 }
+
+vec3 Spline::getRotation(unsigned int index) {
+	vec3 dir = normalize(vec3(outerPoints[index] - innerPoints[index], 0));
+	float cos = dot(dir, vec3(1, 0, 0));
+	float sin = cross(dir, vec3(1, 0, 0)).z;
+	return vec3(0, 0, atan2(sin, cos));
+}
+
+vec3 Spline::getMidPoint(unsigned int index) {
+	return vec3(0.5f * (outerPoints[index] + innerPoints[index]), 0);
+}
