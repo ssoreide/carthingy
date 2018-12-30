@@ -171,6 +171,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="LoadShaders.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Splines.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="LoadShaders.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Splines.h" />

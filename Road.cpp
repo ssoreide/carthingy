@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Splines.h"
 #include "Cube.h"
+#include "Rectangle.h"
 #include <glm/ext.hpp>
 
 #define ROAD_IMAGE_ID 2
@@ -172,6 +173,7 @@ Object* Road::createGate() {
 	Cube *left = new Cube();
 	Cube *right = new Cube();
 	Cube *mid = new Cube();
+	Square *sign = new Square();
 
 	left->Init();
 	left->setPosition(glm::vec3(-1, 1.5, 0));
@@ -185,10 +187,15 @@ Object* Road::createGate() {
 	mid->setPosition(glm::vec3(0, 1, 0));
 	mid->setScaling(glm::vec3(2, 1, 0.1));
 
+	sign->Init();
+	sign->setPosition(glm::vec3(0, 1, 0.2f));
+	sign->setScaling(glm::vec3(1.0, 0.5, 0.1));
+
 	Object *gate = new Object();
 	gate->addChild(left);
 	gate->addChild(right);
 	gate->addChild(mid);
+	gate->addChild(sign);
 
 	return gate;
 }
