@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include "Camera.h"
 #include "Splines.h"
+#include "Cube.h"
 
 #define ROAD_IMAGE_ID 2
 
@@ -29,8 +30,6 @@ Road::~Road()
 
 void Road::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
-	
-	
 
 	std::vector<vec2> controlPoints;
 	controlPoints.push_back(10.0f * vec2(0.0, 0.0));
@@ -149,6 +148,37 @@ void Road::Init() {
 	);
 	glBindVertexArray(0);
 
+//	Object *gate = createGate();
+//	addChild(gate);
+
+
+
+
+}
+
+Object* Road::createGate() {
+	Cube *left = new Cube();
+	Cube *right = new Cube();
+	Cube *mid = new Cube();
+
+	left->Init();
+	left->setPosition(glm::vec3(-1, 1.5, 0));
+	left->setScaling(glm::vec3(0.1, 3, 0.1));
+
+	right->Init();
+	right->setPosition(glm::vec3(1, 1.5, 0));
+	right->setScaling(glm::vec3(0.1, 3, 0.1));
+
+	mid->Init();
+	mid->setPosition(glm::vec3(0, 1, 0));
+	mid->setScaling(glm::vec3(2, 1, 0.1));
+
+	Object *gate = new Object();
+	gate->addChild(left);
+	gate->addChild(right);
+	gate->addChild(mid);
+
+	return gate;
 }
 
 void Road::Draw(const Camera& cam, const glm::mat4& transform) {
@@ -161,5 +191,5 @@ void Road::Draw(const Camera& cam, const glm::mat4& transform) {
 	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, arraySize / 5);
 	glBindVertexArray(0);
-	Object::Draw(cam, getTransformMatrix() * transform);
+	Object::Draw(cam, transform);
 }
