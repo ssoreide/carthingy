@@ -172,6 +172,7 @@ int main(void)
 	double pos = 0;
 
 	cam->setPosition(glm::vec3(0, 2, 20));
+	cam->setRotation(glm::vec3(0, 3.1415,0));
 
 	while (!glfwWindowShouldClose(window))
 	{

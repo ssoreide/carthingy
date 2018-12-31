@@ -41,7 +41,7 @@ TextureManager::~TextureManager()
 	m_inst = 0;
 }
 
-bool TextureManager::LoadTexture(const char* filename, const unsigned int texID, GLenum image_format, GLint internal_format, GLint level, GLint border)
+bool TextureManager::LoadTexture(const std::string& filename, const unsigned int texID, GLenum image_format, GLint internal_format, GLint level, GLint border)
 {
 	//image format
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -55,17 +55,17 @@ bool TextureManager::LoadTexture(const char* filename, const unsigned int texID,
 	GLuint gl_texID;
 	
 	//check the file signature and deduce its format
-	fif = FreeImage_GetFileType(filename, 0);
+	fif = FreeImage_GetFileType(filename.c_str(), 0);
 	//if still unknown, try to guess the file format from the file extension
 	if(fif == FIF_UNKNOWN) 
-		fif = FreeImage_GetFIFFromFilename(filename);
+		fif = FreeImage_GetFIFFromFilename(filename.c_str());
 	//if still unkown, return failure
 	if(fif == FIF_UNKNOWN)
 		return false;
 
 	//check that the plugin has reading capabilities and load the file
 	if(FreeImage_FIFSupportsReading(fif))
-		dib = FreeImage_Load(fif, filename);
+		dib = FreeImage_Load(fif, filename.c_str());
 	//if the image failed to load, return failure
 	if(!dib)
 		return false;

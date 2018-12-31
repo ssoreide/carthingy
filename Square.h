@@ -6,7 +6,7 @@ class Square :
 	public Object
 {
 public:
-	Square();
+	Square(const std::string& texture);
 	virtual void Draw(const Camera& cam, const glm::mat4& transform);
 };
 

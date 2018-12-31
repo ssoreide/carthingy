@@ -6,10 +6,10 @@
 #include "Camera.h"
 #include "Splines.h"
 #include "Cube.h"
-#include "Rectangle.h"
+#include "Square.h"
 #include <glm/ext.hpp>
 
-#define ROAD_IMAGE_ID 2
+#define ROAD_IMAGE_ID 5
 
 using namespace std;
 
@@ -120,9 +120,9 @@ Road::Road()
 	// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	// Generate mipmaps, by the way.
-	glGenerateMipmap(GL_TEXTURE_2D);
+//	glGenerateMipmap(GL_TEXTURE_2D);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -155,11 +155,25 @@ Road::Road()
 	}
 }
 
+void Road::Draw(const Camera& cam, const glm::mat4& transform) {
+	glBindVertexArray(myVAO);
+	glUseProgram(myShader);
+	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
+
+	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
+	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;
+
+	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, arraySize / 5);
+	glBindVertexArray(0);
+	Object::Draw(cam, transform);
+}
+
 Object* Road::createGate() {
 	Cube *left = new Cube();
 	Cube *right = new Cube();
 	Cube *mid = new Cube();
-	Square *sign = new Square();
+	Square *sign = new Square("textures\\bacon.jpg");
 
 	left->setPosition(glm::vec3(-1, 1.5, 0));
 	left->setScaling(glm::vec3(0.1, 3, 0.1));
@@ -180,17 +194,4 @@ Object* Road::createGate() {
 	gate->addChild(sign);
 
 	return gate;
-}
-
-void Road::Draw(const Camera& cam, const glm::mat4& transform) {
-	glBindVertexArray(myVAO);
-	glUseProgram(myShader);
-
-	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
-	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;
-
-	glUniformMatrix4fv(shaderArgMVP, 1, GL_FALSE, &mvp[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, arraySize / 5);
-	glBindVertexArray(0);
-	Object::Draw(cam, transform);
 }

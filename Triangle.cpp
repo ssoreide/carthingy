@@ -7,9 +7,10 @@
 #define TRIANGLE_IMAGE_ID 1
 
 static const GLfloat g_vertex_buffer_data[] = {
+// PosX   posY   posZ  U    V	 
    -1.0f, -1.0f, 0.0f, 0.0, 0.0,
-   1.0f, -1.0f, 0.0f, 1.0, 0.0,
-   0.0f,  1.0f, 0.0f, 0.5, 1.0
+    1.0f, -1.0f, 0.0f, 1.0, 0.0,
+    0.0f,  1.0f, 0.0f, 0.5, 1.0
 };
 
 Triangle::Triangle()
@@ -50,6 +51,7 @@ Triangle::Triangle()
 void Triangle::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
+	TextureManager::Inst()->BindTexture(TRIANGLE_IMAGE_ID);
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 
 	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;

@@ -1,13 +1,14 @@
 #pragma once
-#include "Rectangle.h"
+#include "Square.h"
 #include "LoadShaders.h"
 #include "TextureManager.h"
 #include "Camera.h"
 #include <iostream>
 
-#define RECTANGLE_IMAGE_ID 1
+#define RECTANGLE_IMAGE_ID 2
 
 static const GLfloat g_vertex_buffer_data[] = {
+	// PosX   posY   posZ  U    V	
 	-1.0f, -1.0f, 0.0f, 0.0, 0.0,
 	1.0f, -1.0f, 0.0f, 1.0, 0.0,
 	1.0f,  1.0f, 0.0f, 1.0, 1.0,
@@ -16,7 +17,7 @@ static const GLfloat g_vertex_buffer_data[] = {
 	-1.0f, -1.0f, 0.0f, 0.0, 0.0
 };
 
-Square::Square()
+Square::Square(const std::string& texturefilename)
 {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
@@ -28,7 +29,7 @@ Square::Square()
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-	TextureManager::Inst()->LoadTexture("textures\\road3.jpg", RECTANGLE_IMAGE_ID);
+	TextureManager::Inst()->LoadTexture(texturefilename, RECTANGLE_IMAGE_ID);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -54,6 +55,8 @@ Square::Square()
 void Square::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
+	TextureManager::Inst()->BindTexture(RECTANGLE_IMAGE_ID);
+
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 
 	glm::mat4 mvp = projectionView * transform * getTransformMatrix();
