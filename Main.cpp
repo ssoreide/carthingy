@@ -148,7 +148,7 @@ int main(void)
 	Cube c1;
 	c1.setPosition(glm::vec3(-3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1000));
-	objects.push_back(&c1);
+//	objects.push_back(&c1);
 
 	Cube c2;
 	c2.setPosition(glm::vec3(3, 0, 0));
