@@ -16,7 +16,7 @@ using namespace std;
 const int width = 1920;
 const int height = 1080;
 
-Camera cam(width,height);
+Camera *cam = NULL;
 
 bool key_up = false;
 bool key_down = false;
@@ -24,17 +24,19 @@ bool key_left = false;
 bool key_right = false;
 
 void update_from_keys() {
-	if (key_up) {
-		cam.addVelocity(-0.1f);
-	}
-	if (key_down) {
-		cam.addVelocity(0.1f);
-	}
-	if (key_left) {
-		cam.rotate(glm::vec3(0, 0.01f, 0.0f));
-	}
-	if (key_right) {
-		cam.rotate(glm::vec3(0, -0.01f, 0.0f));
+	if (cam!=NULL) {
+		if (key_up) {
+			cam->addVelocity(-0.1f);
+		}
+		if (key_down) {
+			cam->addVelocity(0.1f);
+		}
+		if (key_left) {
+			cam->rotate(glm::vec3(0, 0.01f, 0.0f));
+		}
+		if (key_right) {
+			cam->rotate(glm::vec3(0, -0.01f, 0.0f));
+		}
 	}
 }
 
@@ -118,6 +120,8 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
+	cam = new Camera(width, height);
+
 	vector<Object*> objects;
 
 	Road road;
@@ -176,19 +180,19 @@ int main(void)
 	double scale = 0.0;
 	double pos = 0;
 
-	cam.setPosition(glm::vec3(0, 2, 20));
+	cam->setPosition(glm::vec3(0, 2, 20));
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
+		glm::mat4 projectionView = cam->getProjection() * glm::inverse(cam->getTransformMatrix());
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		skybox.Draw(cam.getProjection(), cam.getTransformMatrix());
+		skybox.Draw(cam->getProjection(), cam->getTransformMatrix());
 
 		vector<Object*>::iterator it = objects.begin();
 		while (it != objects.end()) {
-			(*it)->Draw(cam, glm::mat4(1));
+			(*it)->Draw(*cam, glm::mat4(1));
 			it++;
 		}
 
@@ -200,7 +204,7 @@ int main(void)
 		scale -= 0.0005;
 		pos = sin(scale);
 		update_from_keys();
-		cam.move(0.02f);
+		cam->move(0.02f);
 	}
 
 	glfwTerminate();
