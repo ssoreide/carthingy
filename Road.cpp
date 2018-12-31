@@ -54,7 +54,7 @@ void Road::Init() {
 
 	GLfloat * PosAndTexCoordinates = new GLfloat[arraySize];
 	int p = 0;
-	for (int i = 0; i < controlPoints.size() * texPerControlPoint; i++) {
+	for (unsigned int i = 0; i < controlPoints.size() * texPerControlPoint; i++) {
 		for (int j = 0; j < segmentsPerTex; j++) {
 			int s = i * segmentsPerTex + j;
 			int sn = (s + 1) % (arraySize / 30);
@@ -158,9 +158,6 @@ void Road::Init() {
 
 		gate->setPosition(spline.getMidPoint((splinesegments * i / number_of_gates)));
 		gate->setRotation(spline.getRotation((splinesegments * i / number_of_gates)));
-
-		cout << "Midpoint for gate: " << i << " " << glm::to_string(gate->getPosition()) << "\n";
-		cout << "Rotation for gate: " << i << " " << glm::to_string(gate->getRotation()) << "\n";
 
 		addChild(gate);
 	}

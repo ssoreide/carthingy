@@ -2,7 +2,7 @@
 
 Spline::Spline(std::vector<vec2> controlPoints, float width, int pointsPerSegment) {
 	std::vector<vec2> pointsOnCurve;
-	for (int i = 0; i < controlPoints.size(); i++) {
+	for (unsigned int i = 0; i < controlPoints.size(); i++) {
 		vec2 p0 = controlPoints[i];
 		vec2 p1 = controlPoints[(i + 1) % controlPoints.size()];
 		vec2 p2 = controlPoints[(i + 2) % controlPoints.size()];
@@ -11,7 +11,7 @@ Spline::Spline(std::vector<vec2> controlPoints, float width, int pointsPerSegmen
 			pointsOnCurve.push_back(catmullRom(p0, p1, p2, p3, (float)j / pointsPerSegment));
 		}
 	}
-	for (int i = 0; i < pointsOnCurve.size(); i++) {
+	for (unsigned int i = 0; i < pointsOnCurve.size(); i++) {
 		vec2 p0 = pointsOnCurve[i];
 		vec2 p1 = pointsOnCurve[(i + 1) % pointsOnCurve.size()];
 		vec2 delta = p1 - p0;

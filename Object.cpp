@@ -32,7 +32,7 @@ void Object::rotate(const glm::vec3& delta) {
 
 void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	glm::mat4 t = transform * getTransformMatrix();
-	for (int i = 0; i < children.size(); i++) {
+	for (unsigned int i = 0; i < children.size(); i++) {
 		children[i]->Draw(cam, t);
 	}
 }

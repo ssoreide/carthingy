@@ -73,6 +73,7 @@ void printMatrix(glm::mat4 m) {
 
 int main(void)
 {
+	cout << "Starting...\n";
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -165,10 +166,7 @@ int main(void)
 	Skybox skybox;
 	skybox.Init();
 
-	glm::mat4 test = glm::mat4(1);
-	cout << "Newly constructed:\n";
-	printMatrix(test);
-	
+
 	int error = glGetError();
 
 	if (error != GL_NO_ERROR) {
