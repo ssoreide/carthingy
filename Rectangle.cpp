@@ -18,14 +18,6 @@ static const GLfloat g_vertex_buffer_data[] = {
 
 Square::Square()
 {
-}
-
-
-Square::~Square()
-{
-}
-
-void Square::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
 	glGenVertexArrays(1, &myVAO);

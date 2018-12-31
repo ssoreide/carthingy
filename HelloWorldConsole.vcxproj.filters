@@ -40,9 +40,6 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TexturedObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Splines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Skybox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturedObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Splines.h">

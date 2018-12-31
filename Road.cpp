@@ -23,14 +23,6 @@ int arraySize;
 
 Road::Road()
 {
-}
-
-
-Road::~Road()
-{
-}
-
-void Road::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
 	std::vector<vec2> controlPoints;
@@ -161,9 +153,6 @@ void Road::Init() {
 
 		addChild(gate);
 	}
-
-
-
 }
 
 Object* Road::createGate() {
@@ -172,19 +161,15 @@ Object* Road::createGate() {
 	Cube *mid = new Cube();
 	Square *sign = new Square();
 
-	left->Init();
 	left->setPosition(glm::vec3(-1, 1.5, 0));
 	left->setScaling(glm::vec3(0.1, 3, 0.1));
 
-	right->Init();
 	right->setPosition(glm::vec3(1, 1.5, 0));
 	right->setScaling(glm::vec3(0.1, 3, 0.1));
 
-	mid->Init();
 	mid->setPosition(glm::vec3(0, 1, 0));
 	mid->setScaling(glm::vec3(2, 1, 0.1));
 
-	sign->Init();
 	sign->setPosition(glm::vec3(0, 1, 0.2f));
 	sign->setScaling(glm::vec3(1.0, 0.5, 0.1));
 

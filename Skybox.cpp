@@ -94,13 +94,6 @@ unsigned int Skybox::loadCubemap(vector<string> faces)
 }
 
 Skybox::Skybox() {
-
-}
-Skybox::~Skybox() {
-
-}
-
-void Skybox::Init() {
 	cubemapTexture = loadCubemap(faces);
 
 	myShader = LoadShaders("SkyboxVertexShader.glsl", "SkyboxFragmentShader.glsl");

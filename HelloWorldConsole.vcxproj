@@ -175,7 +175,6 @@
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Splines.cpp" />
-    <ClCompile Include="TexturedObject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
@@ -188,7 +187,6 @@
     <ClInclude Include="Road.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Splines.h" />
-    <ClInclude Include="TexturedObject.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>

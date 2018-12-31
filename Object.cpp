@@ -10,10 +10,6 @@ Object::Object()
 	scalingVector = glm::vec3(1.0);
 }
 
-Object::~Object()
-{
-}
-
 void Object::setPosition(const glm::vec3& pos) {
 	positionVector = pos;
 }
@@ -63,3 +59,6 @@ glm::vec3 Object::getRotation() const {
 	return rotationVector;
 }
 
+glm::vec3 Object::getScaling() const {
+	return scalingVector;
+}

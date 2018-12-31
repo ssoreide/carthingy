@@ -125,24 +125,20 @@ int main(void)
 	vector<Object*> objects;
 
 	Road road;
-	road.Init();
 	road.setPosition(glm::vec3(0, 0, 0));
 	road.setScaling(glm::vec3(15, 15, 15));
 	objects.push_back(&road);
 
 	Triangle t1;
-	t1.Init();
 	t1.setPosition(glm::vec3(0, 2, 0));
 	t1.setScaling(glm::vec3(2, 2, 1));
 
 	Cube tc1;
-	tc1.Init();
 	tc1.setPosition(glm::vec3(1, 0, 0));
 	tc1.setScaling(glm::vec3(0.2, 0.2, 0.2));
 	t1.addChild(&tc1);
 
 	Cube tc2;
-	tc2.Init();
 	tc2.setPosition(glm::vec3(-1, 0, 0));
 	tc2.setScaling(glm::vec3(0.2, 0.2, 0.2));
 	t1.addChild(&tc2);
@@ -150,26 +146,21 @@ int main(void)
 	objects.push_back(&t1);
 
 	Cube c1;
-	c1.Init();
 	c1.setPosition(glm::vec3(-3, 0, 0));
 	c1.setScaling(glm::vec3(1, 1, 1000));
 	objects.push_back(&c1);
 
 	Cube c2;
-	c2.Init();
 	c2.setPosition(glm::vec3(3, 0, 0));
 	c2.setScaling(glm::vec3(1, 1, 1));
 //	objects.push_back(&c2);
 
 	Cube c3;
-	c3.Init();
 	c3.setPosition(glm::vec3(0, 0, -5));
 	c3.setScaling(glm::vec3(0.5, 0.5, 0.5));
 //	objects.push_back(&c3);
 
 	Skybox skybox;
-	skybox.Init();
-
 
 	int error = glGetError();
 

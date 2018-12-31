@@ -14,13 +14,6 @@ static const GLfloat g_vertex_buffer_data[] = {
 
 Triangle::Triangle()
 {
-}
-
-Triangle::~Triangle()
-{
-}
-
-void Triangle::Init() {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
 	glGenVertexArrays(1, &myVAO);

@@ -11,9 +11,7 @@ class Object
 {
 public:
 	Object();
-	~Object();
 
-	virtual void Init() {};
 	virtual void Draw(const Camera& cam, const glm::mat4& transform);
 
 	void setPosition(const glm::vec3& pos);

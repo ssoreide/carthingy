@@ -47,16 +47,7 @@ static const GLfloat g_vertex_buffer_data[] = {
 	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
-Cube::Cube()
-{
-}
-
-
-Cube::~Cube()
-{
-}
-
-void Cube::Init() {
+Cube::Cube() {
 	myShader = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
 
 	glGenVertexArrays(1, &myVAO);
