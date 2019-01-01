@@ -5,8 +5,6 @@
 #include "Camera.h"
 #include <iostream>
 
-#define RECTANGLE_IMAGE_ID 2
-
 static const GLfloat g_vertex_buffer_data[] = {
 	// PosX   posY   posZ  U    V	
 	-1.0f, -1.0f, 0.0f, 0.0, 0.0,

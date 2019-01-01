@@ -46,5 +46,6 @@ protected:
 	GLuint shaderArgProjection;
 	GLuint shaderArgModel;
 	GLuint shaderArgView;
+	GLuint shaderArgUseTexture;
 };
 

@@ -18,10 +18,12 @@ Object::Object()
 	glBindVertexArray(myVAO);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 	shaderArgProjection = glGetUniformLocation(myShader, "projection");
 	shaderArgView = glGetUniformLocation(myShader, "view");
 	shaderArgModel = glGetUniformLocation(myShader, "model");
 	shaderArgLightPos = glGetUniformLocation(myShader, "lightPos");
+	shaderArgUseTexture = glGetUniformLocation(myShader, "useTexture");
 
 	glGenBuffers(1, &myVBO);
 }
@@ -56,6 +58,9 @@ void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
+	if (myTexture != "") {
+		TextureManager::Inst()->BindTexture(myTexture);
+	}
 	glm::vec3 lp = glm::vec3(1, 1, 20);
 	glm::mat4 projection = cam.getProjection();
 	glm::mat4 view = glm::inverse(cam.getTransformMatrix());
@@ -64,6 +69,7 @@ void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	glUniformMatrix4fv(shaderArgView, 1, GL_FALSE, &view[0][0]);
 	glUniformMatrix4fv(shaderArgModel, 1, GL_FALSE, &model[0][0]);
 	glUniform3fv(shaderArgLightPos, 1, &lp[0]);
+	glUniform1i(shaderArgUseTexture, 1);
 }
 
 void Object::addChild(Object* obj) {
