@@ -42,5 +42,9 @@ protected:
 	GLuint shaderArgMVP;
 	GLuint myShader;
 	std::string myTexture;
+	GLuint shaderArgLightPos;
+	GLuint shaderArgProjection;
+	GLuint shaderArgModel;
+	GLuint shaderArgView;
 };
 
