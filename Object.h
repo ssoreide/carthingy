@@ -18,6 +18,8 @@ public:
 	void setRotation(const glm::vec3& rotation);
 	void setScaling(const glm::vec3& scale);
 
+	void setTexture(const std::string textureFileName);
+
 	void rotate(const glm::vec3& delta);
 	void move(float distance); 
 	void addVelocity(float delta) { velocity += delta; }
@@ -39,5 +41,6 @@ protected:
 	GLuint myVBO;
 	GLuint shaderArgMVP;
 	GLuint myShader;
+	std::string myTexture;
 };
 

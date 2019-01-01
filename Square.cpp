@@ -17,7 +17,7 @@ static const GLfloat g_vertex_buffer_data[] = {
 	-1.0f, -1.0f, 0.0f, 0.0, 0.0
 };
 
-Square::Square(const std::string& texturefilename)
+Square::Square()
 {
 	myShader = LoadShaders("TextureVertexShader.glsl", "TextureFragmentShader.glsl");
 
@@ -29,7 +29,6 @@ Square::Square(const std::string& texturefilename)
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-	TextureManager::Inst()->LoadTexture(texturefilename);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -55,7 +54,7 @@ Square::Square(const std::string& texturefilename)
 void Square::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-	TextureManager::Inst()->BindTexture("textures\\bacon.jpg");
+	TextureManager::Inst()->BindTexture(myTexture);
 
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 

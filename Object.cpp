@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "TextureManager.h"
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -25,6 +26,12 @@ void Object::setRotation(const glm::vec3& rot) {
 void Object::rotate(const glm::vec3& delta) {
 	rotationVector += delta;
 }
+
+void Object::setTexture(const std::string textureFileName) {
+	TextureManager::Inst()->LoadTexture(textureFileName);
+	myTexture = textureFileName;
+}
+
 
 void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	glm::mat4 t = transform * getTransformMatrix();

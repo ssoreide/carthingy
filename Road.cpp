@@ -112,7 +112,7 @@ Road::Road()
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, arraySize * sizeof(GLfloat), PosAndTexCoordinates, GL_STATIC_DRAW);
 
-	TextureManager::Inst()->LoadTexture("textures\\road3.jpg", ROAD_IMAGE_ID);
+	TextureManager::Inst()->LoadTexture("textures\\road3.jpg");
 	// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
@@ -169,7 +169,8 @@ Object* Road::createGate() {
 	Cube *left = new Cube();
 	Cube *right = new Cube();
 	Cube *mid = new Cube();
-	Square *sign = new Square("textures\\bacon.jpg");
+	Square *sign = new Square();
+	sign->setTexture("textures\\bacon.jpg");
 
 	left->setPosition(glm::vec3(-1, 1.5, 0));
 	left->setScaling(glm::vec3(0.1, 3, 0.1));
