@@ -104,10 +104,6 @@ Road::Road()
 		}
 	}
 
-	
-	
-	
-
 	glGenVertexArrays(1, &myVAO);
 	glBindVertexArray(myVAO);
 	shaderArgMVP = glGetUniformLocation(myShader, "MVP");
@@ -158,7 +154,7 @@ Road::Road()
 void Road::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-	TextureManager::Inst()->BindTexture(ROAD_IMAGE_ID);
+	TextureManager::Inst()->BindTexture("textures\\road3.jpg");
 
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;

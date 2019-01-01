@@ -51,7 +51,7 @@ Triangle::Triangle()
 void Triangle::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-	TextureManager::Inst()->BindTexture(TRIANGLE_IMAGE_ID);
+	TextureManager::Inst()->BindTexture("textures\\road3.jpg");
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 
 	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;

@@ -23,9 +23,7 @@ public:
 
 	//load a texture an make it the current texture
 	//if texID is already in use, it will be unloaded and replaced with this texture
-	bool LoadTexture(const std::string & filename,	//where to load the file from
-		const unsigned int texID,			//arbitrary id you will reference the texture by
-											//does not have to be generated with glGenTextures
+	void LoadTexture(const std::string & filename,	//where to load the file from
 		GLenum image_format = GL_RGB,		//format the image is in
 		GLint internal_format = GL_RGB,		//format to store the image in
 		GLint level = 0,					//mipmapping level
@@ -35,7 +33,7 @@ public:
 	bool UnloadTexture(const unsigned int texID);
 
 	//set the current texture
-	bool BindTexture(const unsigned int texID);
+	void BindTexture(const std::string & filename);
 
 	//free all texture memory
 	void UnloadAllTextures();
@@ -46,7 +44,7 @@ protected:
 	TextureManager& operator=(const TextureManager& tm);
 
 	static TextureManager* m_inst;
-	std::map<unsigned int, GLuint> m_texID;
+	std::map<std::string, GLuint> m_texID;
 };
 
 #endif

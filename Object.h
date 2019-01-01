@@ -23,7 +23,7 @@ public:
 	void addVelocity(float delta) { velocity += delta; }
 
 	void addChild(Object* obj);
-
+	
 	glm::mat4 getTransformMatrix() const;
 	glm::vec3 getPosition() const;
 	glm::vec3 getRotation() const;

@@ -29,7 +29,7 @@ Square::Square(const std::string& texturefilename)
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-	TextureManager::Inst()->LoadTexture(texturefilename, RECTANGLE_IMAGE_ID);
+	TextureManager::Inst()->LoadTexture(texturefilename);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -55,7 +55,7 @@ Square::Square(const std::string& texturefilename)
 void Square::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-	TextureManager::Inst()->BindTexture(RECTANGLE_IMAGE_ID);
+	TextureManager::Inst()->BindTexture("textures\\bacon.jpg");
 
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 
