@@ -112,7 +112,6 @@ Road::Road()
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 	glBufferData(GL_ARRAY_BUFFER, arraySize * sizeof(GLfloat), PosAndTexCoordinates, GL_STATIC_DRAW);
 
-	TextureManager::Inst()->LoadTexture("textures\\road3.jpg");
 	// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
@@ -149,12 +148,13 @@ Road::Road()
 
 		addChild(gate);
 	}
+	setTexture("textures\\road3.jpg");
 }
 
 void Road::Draw(const Camera& cam, const glm::mat4& transform) {
 	glBindVertexArray(myVAO);
 	glUseProgram(myShader);
-	TextureManager::Inst()->BindTexture("textures\\road3.jpg");
+	TextureManager::Inst()->BindTexture(myTexture);
 
 	glm::mat4 projectionView = cam.getProjection() * glm::inverse(cam.getTransformMatrix());
 	glm::mat4 mvp = projectionView * getTransformMatrix() * transform;
