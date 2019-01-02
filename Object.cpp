@@ -11,6 +11,8 @@ Object::Object()
 	positionVector = glm::vec3(0.0);
 	rotationVector = glm::vec3(0.0);
 	scalingVector = glm::vec3(1.0);
+	colorVector = glm::vec3(1.0);	// Default color is white
+	useTexture = 0;
 
 	myShader = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
 
@@ -24,6 +26,7 @@ Object::Object()
 	shaderArgModel = glGetUniformLocation(myShader, "model");
 	shaderArgLightPos = glGetUniformLocation(myShader, "lightPos");
 	shaderArgUseTexture = glGetUniformLocation(myShader, "useTexture");
+	shaderArgObjectColor = glGetUniformLocation(myShader, "objectColor");
 
 	glGenBuffers(1, &myVBO);
 }
@@ -47,6 +50,7 @@ void Object::rotate(const glm::vec3& delta) {
 void Object::setTexture(const std::string textureFileName) {
 	TextureManager::Inst()->LoadTexture(textureFileName);
 	myTexture = textureFileName;
+	useTexture = 1;
 }
 
 
@@ -61,7 +65,7 @@ void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	if (myTexture != "") {
 		TextureManager::Inst()->BindTexture(myTexture);
 	}
-	glm::vec3 lp = glm::vec3(1, 1, 20);
+	glm::vec3 lp = glm::vec3(1, 10, 20);
 	glm::mat4 projection = cam.getProjection();
 	glm::mat4 view = glm::inverse(cam.getTransformMatrix());
 	glm::mat4 model = transform * getTransformMatrix();
@@ -69,7 +73,8 @@ void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	glUniformMatrix4fv(shaderArgView, 1, GL_FALSE, &view[0][0]);
 	glUniformMatrix4fv(shaderArgModel, 1, GL_FALSE, &model[0][0]);
 	glUniform3fv(shaderArgLightPos, 1, &lp[0]);
-	glUniform1i(shaderArgUseTexture, 1);
+	glUniform1i(shaderArgUseTexture, useTexture);
+	glUniform3fv(shaderArgObjectColor, 1, &colorVector[0]);
 }
 
 void Object::addChild(Object* obj) {

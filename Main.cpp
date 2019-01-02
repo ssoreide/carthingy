@@ -132,6 +132,7 @@ int main(void)
 	Triangle t1;
 	t1.setPosition(glm::vec3(0, 2, 0));
 	t1.setScaling(glm::vec3(2, 2, 1));
+//	objects.push_back(&t1);
 
 	Cube tc1;
 	tc1.setPosition(glm::vec3(1, 0, 0));
@@ -143,7 +144,6 @@ int main(void)
 	tc2.setScaling(glm::vec3(0.2, 0.2, 0.2));
 	t1.addChild(&tc2);
 
-	objects.push_back(&t1);
 
 	Cube c1;
 	c1.setPosition(glm::vec3(-3, 0, 0));

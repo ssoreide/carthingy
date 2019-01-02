@@ -6,13 +6,13 @@
 #include <iostream>
 
 static const GLfloat g_vertex_buffer_data[] = {
-	// PosX   posY   posZ  U    V	
-	-1.0f, -1.0f, 0.0f, 0.0, 0.0,
-	1.0f, -1.0f, 0.0f, 1.0, 0.0,
-	1.0f,  1.0f, 0.0f, 1.0, 1.0,
-	1.0f,  1.0f, 0.0f, 1.0, 1.0,
-	-1.0f, 1.0f, 0.0f, 0.0, 1.0,
-	-1.0f, -1.0f, 0.0f, 0.0, 0.0
+	// PosX   posY   posZ  U    V  Normal	
+	-1.0f, -1.0f, 0.0f, 0.0, 0.0, 0, 0, -1,
+	1.0f, -1.0f, 0.0f, 1.0, 0.0,  0, 0, -1,
+	1.0f,  1.0f, 0.0f, 1.0, 1.0,  0, 0, -1,
+	1.0f,  1.0f, 0.0f, 1.0, 1.0,  0, 0, -1,
+	-1.0f, 1.0f, 0.0f, 0.0, 1.0,  0, 0, -1,
+	-1.0f, -1.0f, 0.0f, 0.0, 0.0, 0, 0, -1,
 };
 
 Square::Square()
@@ -24,16 +24,24 @@ Square::Square()
 		3,                  // size
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
-		5 * sizeof(float),  // stride 
+		8 * sizeof(float),  // stride 
 		(void*)0            // array buffer offset
 	);
 	glVertexAttribPointer(
-		2,                  // attribute 1
+		2,                  // attribute 2 (UV)
 		2,                  // size
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
-		5 * sizeof(float),  // stride
+		8 * sizeof(float),  // stride
 		(void*)(3 * sizeof(float))  // array buffer offset
+	);
+	glVertexAttribPointer(
+		1,                  // attribute 2 (Normals)
+		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		8 * sizeof(float),  // stride
+		(void*)(5 * sizeof(float))  // array buffer offset
 	);
 	glBindVertexArray(0);
 }

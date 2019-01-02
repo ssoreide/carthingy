@@ -86,12 +86,6 @@
     <None Include="SimpleVertexShader.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="TextureFragmentShader.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="TextureVertexShader.glsl">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="SkyboxFragmentShader.glsl">
       <Filter>Shaders</Filter>
     </None>

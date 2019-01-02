@@ -195,8 +195,6 @@
     <None Include="SimpleVertexShader.glsl" />
     <None Include="SkyboxFragmentShader.glsl" />
     <None Include="SkyboxVertexShader.glsl" />
-    <None Include="TextureFragmentShader.glsl" />
-    <None Include="TextureVertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

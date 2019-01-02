@@ -1,7 +1,5 @@
 #include "Cube.h"
 #include <GL/glew.h>
-#include "LoadShaders.h"
-#include "Camera.h"
 
 static const GLfloat g_vertex_buffer_data[] = {
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,

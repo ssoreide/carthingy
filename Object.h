@@ -19,6 +19,7 @@ public:
 	void setScaling(const glm::vec3& scale);
 
 	void setTexture(const std::string textureFileName);
+	void setColor(const glm::vec3 color) { colorVector = color; }
 
 	void rotate(const glm::vec3& delta);
 	void move(float distance); 
@@ -37,6 +38,9 @@ protected:
 	glm::vec3 positionVector;
 	glm::vec3 rotationVector;
 	glm::vec3 scalingVector;
+	glm::vec3 colorVector;
+	GLuint useTexture;
+
 	GLuint myVAO;
 	GLuint myVBO;
 	GLuint shaderArgMVP;
@@ -47,5 +51,6 @@ protected:
 	GLuint shaderArgModel;
 	GLuint shaderArgView;
 	GLuint shaderArgUseTexture;
+	GLuint shaderArgObjectColor;
 };
 

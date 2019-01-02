@@ -37,14 +37,14 @@ Road::Road()
 
 	int splinesegments = controlPoints.size() * segmentsPerTex * texPerControlPoint;
 
-	arraySize = splinesegments * 5 * 6;
+	arraySize = splinesegments * 8 * 6;
 
 	GLfloat * PosAndTexCoordinates = new GLfloat[arraySize];
 	int p = 0;
 	for (unsigned int i = 0; i < controlPoints.size() * texPerControlPoint; i++) {
 		for (int j = 0; j < segmentsPerTex; j++) {
 			int s = i * segmentsPerTex + j;
-			int sn = (s + 1) % (arraySize / 30);
+			int sn = (s + 1) % (arraySize / (8*6));
 
 			//Triangle 1:
 			//xyz
@@ -54,6 +54,10 @@ Road::Road()
 			//uv
 			PosAndTexCoordinates[p++] = 0.0f;
 			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
+			//Normal
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 
 			//xyz
 			PosAndTexCoordinates[p++] = spline.getInnerPoint(s)[0];
@@ -62,6 +66,10 @@ Road::Road()
 			//uv
 			PosAndTexCoordinates[p++] = 1.0f;
 			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
+			//Normal
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 
 			//xyz
 			PosAndTexCoordinates[p++] = spline.getInnerPoint(sn)[0];
@@ -70,6 +78,10 @@ Road::Road()
 			//uv
 			PosAndTexCoordinates[p++] = 1.0f;
 			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
+			//Normal
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 
 
 			//Triangle 2:
@@ -80,6 +92,10 @@ Road::Road()
 			//uv
 			PosAndTexCoordinates[p++] = 0.0f;
 			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
+			//Normal
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 
 			//xyz
 			PosAndTexCoordinates[p++] = spline.getInnerPoint(sn)[0];
@@ -88,6 +104,10 @@ Road::Road()
 			//uv
 			PosAndTexCoordinates[p++] = 1.0f;
 			PosAndTexCoordinates[p++] = (float)(j + 1) / segmentsPerTex;
+			//Normal
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 
 			//xyz
 			PosAndTexCoordinates[p++] = spline.getOuterPoint(s)[0];
@@ -96,6 +116,10 @@ Road::Road()
 			//uv
 			PosAndTexCoordinates[p++] = 0.0f;
 			PosAndTexCoordinates[p++] = (float)j / segmentsPerTex;
+			//Normal
+			PosAndTexCoordinates[p++] = 0.0f;
+			PosAndTexCoordinates[p++] = 1.0f;
+			PosAndTexCoordinates[p++] = 0.0f;
 		}
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
@@ -106,15 +130,23 @@ Road::Road()
 		3,                  // size, coordinates in position
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized? already between 1 and 0?
-		5 * sizeof(float),  // stride nr of coordinates in bytes, distance between vertices
+		8 * sizeof(float),  // stride nr of coordinates in bytes, distance between vertices
 		(void*)0            // array buffer offset
 	);
-	glVertexAttribPointer(
-		2,                  // attribute 1
+	glVertexAttribPointer( 
+		1,                  // attribute 1 - Normal Vector
 		2,                  // size
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
-		5 * sizeof(float),  // stride
+		8 * sizeof(float),  // stride
+		(void*)(5 * sizeof(float))  // array buffer offset
+	);
+	glVertexAttribPointer( 
+		2,                  // attribute 2 - UV
+		2,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		8 * sizeof(float),  // stride
 		(void*)(3 * sizeof(float))  // array buffer offset
 	);
 	setTexture("textures\\road3.jpg");
@@ -132,16 +164,19 @@ Road::Road()
 
 void Road::Draw(const Camera& cam, const glm::mat4& transform) {
 	Object::Draw(cam, transform);
-	glDrawArrays(GL_TRIANGLES, 0, arraySize / 5);
+	glDrawArrays(GL_TRIANGLES, 0, arraySize / 8);
 }
 
 Object* Road::createGate() {
 	Cube *left = new Cube();
 	Cube *right = new Cube();
 	Cube *mid = new Cube();
-	Square *sign = new Square();
-	sign->setTexture("textures\\bacon.jpg");
+	Square *sign1 = new Square();
+	sign1->setTexture("textures\\bacon.jpg");
+	Square *sign2 = new Square();
+	sign2->setTexture("textures\\bacon.jpg");
 
+	left->setColor(glm::vec3(1, 0, 1));
 	left->setPosition(glm::vec3(-1, 1.5, 0));
 	left->setScaling(glm::vec3(0.1, 3, 0.1));
 
@@ -151,14 +186,19 @@ Object* Road::createGate() {
 	mid->setPosition(glm::vec3(0, 1, 0));
 	mid->setScaling(glm::vec3(2, 1, 0.1));
 
-	sign->setPosition(glm::vec3(0, 1, 0.2f));
-	sign->setScaling(glm::vec3(1.0, 0.5, 0.1));
+	sign1->setPosition(glm::vec3(0, 1, 0.2f));
+	sign1->setScaling(glm::vec3(1.0, 0.5, 0.1));
+
+	sign2->setPosition(glm::vec3(0, 1, -0.2f));
+	sign2->setScaling(glm::vec3(1.0, 0.5, 0.1));
+	sign2->setRotation(glm::vec3(0, 3.14159, 0));
 
 	Object *gate = new Object();
 	gate->addChild(left);
 	gate->addChild(right);
 	gate->addChild(mid);
-	gate->addChild(sign);
+	gate->addChild(sign1);
+	gate->addChild(sign2);
 
 	return gate;
 }
