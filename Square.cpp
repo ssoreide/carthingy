@@ -43,7 +43,6 @@ Square::Square()
 		8 * sizeof(float),  // stride
 		(void*)(5 * sizeof(float))  // array buffer offset
 	);
-	glBindVertexArray(0);
 }
 
 void Square::Draw(const Camera& cam, const glm::mat4& transform) {

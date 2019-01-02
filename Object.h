@@ -20,6 +20,7 @@ public:
 
 	void setTexture(const std::string textureFileName);
 	void setColor(const glm::vec3 color) { colorVector = color; }
+	void setLightPosition(const glm::vec3 lightPosition) { lightPositionVector = lightPosition; }
 
 	void rotate(const glm::vec3& delta);
 	void move(float distance); 
@@ -39,6 +40,7 @@ protected:
 	glm::vec3 rotationVector;
 	glm::vec3 scalingVector;
 	glm::vec3 colorVector;
+	glm::vec3 lightPositionVector;
 	GLuint useTexture;
 
 	GLuint myVAO;

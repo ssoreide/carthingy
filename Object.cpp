@@ -12,6 +12,8 @@ Object::Object()
 	rotationVector = glm::vec3(0.0);
 	scalingVector = glm::vec3(1.0);
 	colorVector = glm::vec3(1.0);	// Default color is white
+	lightPositionVector = glm::vec3(1, 10, 20);
+
 	useTexture = 0;
 
 	myShader = LoadShaders("SimpleVertexShader.glsl", "SimpleFragmentShader.glsl");
@@ -56,6 +58,7 @@ void Object::setTexture(const std::string textureFileName) {
 
 void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	glm::mat4 t = transform * getTransformMatrix();
+	lightPositionVector = cam.getPosition() + glm::vec3(0, 5, 0); // Test to attach light to car
 	for (unsigned int i = 0; i < children.size(); i++) {
 		children[i]->Draw(cam, t);
 	}
@@ -65,14 +68,13 @@ void Object::Draw(const Camera& cam, const glm::mat4& transform) {
 	if (myTexture != "") {
 		TextureManager::Inst()->BindTexture(myTexture);
 	}
-	glm::vec3 lp = glm::vec3(1, 10, 20);
 	glm::mat4 projection = cam.getProjection();
 	glm::mat4 view = glm::inverse(cam.getTransformMatrix());
 	glm::mat4 model = transform * getTransformMatrix();
 	glUniformMatrix4fv(shaderArgProjection, 1, GL_FALSE, &projection[0][0]);
 	glUniformMatrix4fv(shaderArgView, 1, GL_FALSE, &view[0][0]);
 	glUniformMatrix4fv(shaderArgModel, 1, GL_FALSE, &model[0][0]);
-	glUniform3fv(shaderArgLightPos, 1, &lp[0]);
+	glUniform3fv(shaderArgLightPos, 1, &lightPositionVector[0]);
 	glUniform1i(shaderArgUseTexture, useTexture);
 	glUniform3fv(shaderArgObjectColor, 1, &colorVector[0]);
 }

@@ -8,6 +8,7 @@
 #include "Cube.h"
 #include "Camera.h"
 #include "Road.h"
+#include "Square.h"
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Skybox.h"
@@ -129,14 +130,14 @@ int main(void)
 	road.setScaling(glm::vec3(15, 15, 15));
 	objects.push_back(&road);
 
-	Triangle t1;
+	Square t1;
 	t1.setPosition(glm::vec3(0, 2, 0));
 	t1.setScaling(glm::vec3(2, 2, 1));
-//	objects.push_back(&t1);
+	objects.push_back(&t1);
 
 	Cube tc1;
 	tc1.setPosition(glm::vec3(1, 0, 0));
-	tc1.setScaling(glm::vec3(0.2, 0.2, 0.2));
+	tc1.setScaling(glm::vec3(-0.2, -0.2, -0.2));
 	t1.addChild(&tc1);
 
 	Cube tc2;
@@ -146,19 +147,19 @@ int main(void)
 
 
 	Cube c1;
-	c1.setPosition(glm::vec3(-3, 0, 0));
-	c1.setScaling(glm::vec3(1, 1, 1000));
-//	objects.push_back(&c1);
+	c1.setPosition(glm::vec3(-3, 5, 0));
+	c1.setScaling(glm::vec3(1, 1, 100));
+	objects.push_back(&c1);
 
 	Cube c2;
 	c2.setPosition(glm::vec3(3, 0, 0));
 	c2.setScaling(glm::vec3(1, 1, 1));
-//	objects.push_back(&c2);
+	objects.push_back(&c2);
 
 	Cube c3;
 	c3.setPosition(glm::vec3(0, 0, -5));
 	c3.setScaling(glm::vec3(0.5, 0.5, 0.5));
-//	objects.push_back(&c3);
+	objects.push_back(&c3);
 
 	Skybox skybox;
 
