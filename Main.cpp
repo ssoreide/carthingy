@@ -145,7 +145,7 @@ int main(void)
 	tc2.setScaling(glm::vec3(0.2, 0.2, 0.2));
 	t1.addChild(&tc2);
 
-
+	// testgreiene
 	Cube c1;
 	c1.setPosition(glm::vec3(-3, 5, 0));
 	c1.setScaling(glm::vec3(1, 1, 100));
@@ -169,11 +169,11 @@ int main(void)
 		cout << "OpenGL error: " << error << "\n";
 	}
 
-	double scale = 0.0;
+	double testRotation = 0.0;
 	double pos = 0;
 
 	cam->setPosition(glm::vec3(0, 2, 20));
-	cam->setRotation(glm::vec3(0, 3.1415,0));
+	cam->setRotation(glm::vec3(0, 0, 0));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -188,15 +188,16 @@ int main(void)
 			(*it)->Draw(*cam, glm::mat4(1));
 			it++;
 		}
-
-		t1.setRotation(glm::vec3(3.0f, 0.0f, -scale));
+		// snurrende firkanten
+		t1.setRotation(glm::vec3(3.0f, 0.0f, -testRotation));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		scale -= 0.0005;
-		pos = sin(scale);
+		testRotation -= 0.0005;
+		pos = sin(testRotation);
 		update_from_keys();
+		// ta tiden mellom hver gang den blir kalt
 		cam->move(0.02f);
 	}
 

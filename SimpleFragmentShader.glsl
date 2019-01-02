@@ -10,9 +10,12 @@ uniform vec3 lightPos;
 uniform int useTexture = 0;
 uniform vec3 objectColor = vec3(0, 1, 0);
 
+// denne shaderen tar alt i verdensposision
+
 void main()
 {
 // Ambient part
+	// bakgrunnsbelysning
     float ambientStrength = 0.1;
 	vec3 lightColor = vec3(1, 1, 1);
     vec3 ambient = ambientStrength * lightColor;

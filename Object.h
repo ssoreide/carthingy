@@ -18,6 +18,7 @@ public:
 	void setRotation(const glm::vec3& rotation);
 	void setScaling(const glm::vec3& scale);
 
+	// hvis jeg ikke bruker setTexture, bruk setColor
 	void setTexture(const std::string textureFileName);
 	void setColor(const glm::vec3 color) { colorVector = color; }
 	void setLightPosition(const glm::vec3 lightPosition) { lightPositionVector = lightPosition; }

@@ -36,7 +36,8 @@ Road::Road()
 	Spline spline(controlPoints, widthFactor, texPerControlPoint * segmentsPerTex);
 
 	int splinesegments = controlPoints.size() * segmentsPerTex * texPerControlPoint;
-
+	// 8 = antall komponenter per vertex (x, y, z, u, v, xNormal, yNormal, zNormal)
+	// 6 = to triangler per segment, som blir 6 vertices
 	arraySize = splinesegments * 8 * 6;
 
 	GLfloat * PosAndTexCoordinates = new GLfloat[arraySize];
