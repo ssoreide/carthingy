@@ -1,3 +1,4 @@
+#pragma once
 //**********************************************
 //Singleton Texture Manager class
 //Written by Ben English
@@ -5,9 +6,6 @@
 //
 //For use with OpenGL and the FreeImage library
 //**********************************************
-
-#ifndef TextureManager_H
-#define TextureManager_H
 
 #include <windows.h>
 #include <gl/gl.h>
@@ -47,4 +45,3 @@ protected:
 	std::map<std::string, GLuint> m_texID;
 };
 
-#endif

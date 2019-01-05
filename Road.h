@@ -1,14 +1,18 @@
 #pragma once
 #include "Object.h"
-#include <GL/glew.h>
 
-class Road :
-	public Object
+class Spline;
+
+class Road : public Object
 {
 public:
 	Road();
-	virtual void Draw(const Camera& cam, const glm::mat4& transform);
+	virtual void Draw();
+	vector<glm::vec3> getTrackLights();
 
+private:
+	Spline *spline;
 	Object* createGate();
+	std::vector<glm::vec2> controlPoints;
 };
 

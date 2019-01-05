@@ -97,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;GLM_ENABLE_EXPERIMENTAL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FREEGLUT_STATIC;WIN32;GLEW_STATIC;GLM_ENABLE_EXPERIMENTAL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -132,7 +132,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;GLEW_STATIC;GLM_ENABLE_EXPERIMENTAL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FREEGLUT_STATIC;WIN32;GLEW_STATIC;GLM_ENABLE_EXPERIMENTAL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -176,19 +176,16 @@
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Splines.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Splines.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.glsl" />
