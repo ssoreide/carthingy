@@ -215,7 +215,7 @@ int main()
 
 	cam = new Camera(width, height);
 	cam->setPosition(glm::vec3(0, 2, 0));
-	cam->setRotation(glm::vec3(0, 0, 0));
+	cam->setRotation(glm::vec3(0, -3.14/4, 0));
 
 	TextureManager::Inst()->LoadTexture("textures/bacon.jpg");
 
