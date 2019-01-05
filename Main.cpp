@@ -17,7 +17,7 @@ using namespace std;
 const int width = 1920;
 const int height = 1080;
 
-Camera *cam = NULL;
+Camera *cam = NULL; 
 
 bool key_up = false;
 bool key_down = false;
