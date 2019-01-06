@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Skybox.h"
 #include "TextureManager.h"
 #include <GL/freeglut.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -13,6 +14,7 @@ const int width = 1920;
 const int height = 1080;
 
 Camera *cam = NULL;
+Skybox *skybox = NULL;
 
 vector<glm::vec3> track_lights;
 
@@ -113,6 +115,7 @@ void MyRenderFunction(void)
 	glClearColor(0, 0.5, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
 	setCarLights();
 
 	glMultMatrixf(glm::value_ptr(glm::inverse(cam->getTransformMatrix())));
@@ -213,11 +216,21 @@ int main()
 
 	int mainwin = glutCreateWindow("Car Game");
 
+	// Initialize GLEW (for skybox / shader loading)
+	glewExperimental = true; // Needed for core profile
+	if (glewInit() != GLEW_OK) {
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		getchar();
+		return -1;
+	}
+
 	cam = new Camera(width, height);
 	cam->setPosition(glm::vec3(0, 2, 0));
 	cam->setRotation(glm::vec3(0, -3.14/4, 0));
 
 	TextureManager::Inst()->LoadTexture("textures/bacon.jpg");
+
+	skybox = new Skybox();
 
 	glutDisplayFunc(MyRenderFunction);
 	glutReshapeFunc(changeSize);
