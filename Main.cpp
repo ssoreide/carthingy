@@ -129,6 +129,16 @@ void MyRenderFunction(void)
 		skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
 		setCarLights();
 	}
+	else {
+		glEnable(GL_FOG);
+		glFogi(GL_FOG_MODE, GL_LINEAR);
+		glFogf(GL_FOG_DENSITY, 0.04);
+		glFogf(GL_FOG_START, 1);
+		glFogf(GL_FOG_END, 400);
+		float fog_color[] = { 1,1,1,0 };
+		glFogfv(GL_FOG_COLOR, fog_color);
+		glFogi(GL_FOG_COORD_SRC, GL_FRAGMENT_DEPTH);
+	}
 	glMultMatrixf(glm::value_ptr(glm::inverse(cam->getTransformMatrix())));
 	if (key_s) {
 		setStaticLights();
@@ -171,6 +181,7 @@ void processNormalKeys(unsigned char key, int x, int y) {
 	case 27: // escape
 		exit(0);
 	case 's':
+		cout << "toggling s key\n";
 		key_s = !key_s;
 		break;
 	case 'l':
