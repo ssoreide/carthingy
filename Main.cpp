@@ -29,14 +29,18 @@ bool key_up = false;
 bool key_down = false;
 bool key_left = false;
 bool key_right = false;
+bool key_s = true;
+bool key_l = true;
+bool key_n = true;
+bool key_c = true;
 
 void update_from_keys() {
 	if (cam != NULL) {
 		if (key_up) {
-			cam->addVelocity(0.1f);
+			cam->addVelocity(-0.1f);
 		}
 		if (key_down) {
-			cam->addVelocity(-0.1f);
+			cam->addVelocity(0.1f);
 		}
 		if (key_left) {
 			cam->rotate(glm::vec3(0, (PI / 180) / 4.0f, 0.0f));
@@ -107,6 +111,9 @@ void setStaticLights() {
 void MyRenderFunction(void)
 {
 	update_from_keys();
+
+	road->takeOffTexture(key_s);
+
 	cam->move(0.1f);
 	int win = glutGetWindow();
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -115,15 +122,17 @@ void MyRenderFunction(void)
 	// Reset transformations
 	glLoadIdentity();
 
-	glClearColor(0, 0.5, 1, 1);
+	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
-	setCarLights();
-
+	if (key_s) {
+		skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
+		setCarLights();
+	}
 	glMultMatrixf(glm::value_ptr(glm::inverse(cam->getTransformMatrix())));
-
-	setStaticLights();
+	if (key_s) {
+		setStaticLights();
+	}
 
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
@@ -157,9 +166,23 @@ void changeSize(int w, int h) {
 }
 // use this for letters
 void processNormalKeys(unsigned char key, int x, int y) {
-
-	if (key == 27) // Escape
+	cout << "Letter key pressed: " << key << "\n";
+	switch (key) {
+	case 27: // escape
 		exit(0);
+	case 's':
+		key_s = !key_s;
+		break;
+	case 'l':
+		key_l = !key_l;
+		break;
+	case 'n':
+		key_n = !key_n;
+		break;
+	case 'c':
+		key_c = !key_c;
+		break;
+	}
 }
 
 void processSpecialKeys(int key, int x, int y) {
@@ -231,7 +254,7 @@ int main()
 	cam->setPosition(glm::vec3(0, 2, 0));
 	cam->setRotation(glm::vec3(0, 0, 0));
 
-	TextureManager::Inst()->LoadTexture("textures/bacon.jpg");
+	TextureManager::Inst()->LoadTexture("textures/cola.jpg");
 
 	skybox = new Skybox();
 
@@ -249,14 +272,14 @@ int main()
 	cube->setPosition(glm::vec3(0, 0, -20));
 	cube->setScaling(glm::vec3(0.5, 0.5, 0.5));
 	//cube->setRotation(glm::vec3(0, 3.14/4, 0));
-	cube->setTexture("textures/bacon.jpg");
+	cube->setTexture("textures/cola.jpg");
 	//	objects.push_back(cube);
 
 	square = new Square();
 	square->setPosition(glm::vec3(0, 3, -50));
 	square->setScaling(glm::vec3(1, 1, 1));
 	square->setRotation(glm::vec3(0, 0, 0));
-	square->setTexture("textures/bacon.jpg");
+	square->setTexture("textures/cola.jpg");
 	//	objects.push_back(square);
 
 	road = new Road();
@@ -268,14 +291,14 @@ int main()
 	Square t1;
 	t1.setPosition(glm::vec3(0, 0, -40));
 	t1.setScaling(glm::vec3(15, 15, 15));
-	t1.setTexture("textures/bacon.jpg");
+	t1.setTexture("textures/cola.jpg");
 	objects.push_back(&t1);
 
 	Square *t2 = new Square();
 	t2->setPosition(glm::vec3(0, 0, -5));
 	t2->setScaling(glm::vec3(2, 2, 2));
 	t2->setRotation(glm::vec3(3.14 / 2, 0, 0));
-	t2->setTexture("textures/bacon.jpg");
+	t2->setTexture("textures/cola.jpg");
 	cube->addChild(t2);
 
 	Cube tc1;

@@ -14,6 +14,8 @@ float widthFactor = 0.7f;
 float pi = (float)atan(1) * 4;
 int texPerControlPoint = 5;
 int segmentsPerTex = 10;
+Square *sign1;
+Square *sign2;
 
 int arraySize;
 
@@ -60,14 +62,16 @@ void Road::Draw() {
 	DrawChildren();
 	UpdateMaterial();
 
-	setTexture("textures\\road3.jpg");
+	sign1->setTexture(textureSign);
+	sign2->setTexture(textureSign);
+
+	setTexture(textureRoad);
 	glPushMatrix();
 	glMultMatrixf(glm::value_ptr(getTransformMatrix()));
 
 	if (myTexture != "") {
 		TextureManager::Inst()->BindTexture(myTexture);
 	}
-
 
 	int splinesegments = controlPoints.size() * segmentsPerTex * texPerControlPoint;
 	// 8 = antall komponenter per vertex (x, y, z, u, v, xNormal, yNormal, zNormal)
@@ -98,10 +102,10 @@ Object* Road::createGate() {
 	Cube *left = new Cube();
 	Cube *right = new Cube();
 	Cube *mid = new Cube();
-	Square *sign1 = new Square();
-	sign1->setTexture("textures\\bacon.jpg");
-	Square *sign2 = new Square();
-	sign2->setTexture("textures\\bacon.jpg");
+	sign1 = new Square();
+	sign1->setTexture(textureSign);
+	sign2 = new Square();
+	sign2->setTexture(textureSign);
 
 	left->setColor(glm::vec3(1, 0, 1));
 	left->setPosition(glm::vec3(-1, 1.5, 0));

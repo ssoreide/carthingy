@@ -1,10 +1,3 @@
-//**********************************************
-//Singleton Texture Manager class
-//Written by Ben English
-//benjamin.english@oit.edu
-//
-//For use with OpenGL and the FreeImage library
-//**********************************************
 
 #include "TextureManager.h"
 

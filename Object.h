@@ -25,15 +25,11 @@ public:
 	void move(float distance);
 	void addVelocity(float delta) 
 	{ 
-		if (velocity >= 0 || delta > 0) { 
-			velocity += delta;
-		}
-		if (velocity < 0) {
+		velocity += delta;
+		if (velocity > 0) {
 			velocity = 0;
 		}
 	}
-	void addRotationVelocity(glm::vec3  delta) { rotationVelocity += delta; }
-	void dampenRotation(float distance);
 
 	void addChild(Object* obj);
 
