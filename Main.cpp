@@ -8,9 +8,12 @@
 #include "Road.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include "Camera.h"
+#include <math.h>
 
 const int width = 1920;
 const int height = 1080;
+
+float PI = (float)atan(1) * 4;
 
 Camera *cam = NULL;
 
@@ -28,16 +31,16 @@ bool key_right = false;
 void update_from_keys() {
 	if (cam != NULL) {
 		if (key_up) {
-			cam->addVelocity(-0.1f);
-		}
-		if (key_down) {
 			cam->addVelocity(0.1f);
 		}
+		if (key_down) {
+			cam->addVelocity(-0.1f);
+		}
 		if (key_left) {
-			cam->addRotationVelocity(glm::vec3(0, 0.0001f, 0.0f));
+			cam->rotate(glm::vec3(0, (PI / 180) / 4.0f, 0.0f));
 		}
 		if (key_right) {
-			cam->addRotationVelocity(glm::vec3(0, -0.0001f, 0.0f));
+			cam->rotate(glm::vec3(0, -(PI / 180)/ 4.0f, 0.0f));
 		}
 	}
 }
@@ -149,7 +152,7 @@ void changeSize(int w, int h) {
 	gluPerspective(45, ratio, 1, 1000);
 	glMatrixMode(GL_MODELVIEW);
 }
-
+// use this for letters
 void processNormalKeys(unsigned char key, int x, int y) {
 
 	if (key == 27) // Escape
@@ -214,7 +217,8 @@ int main()
 	int mainwin = glutCreateWindow("Car Game");
 
 	cam = new Camera(width, height);
-	cam->setPosition(glm::vec3(0, 2, 0));
+	// initially has to be (0, 1, 0)
+	cam->setPosition(glm::vec3(0, 1, 0));
 	cam->setRotation(glm::vec3(0, 0, 0));
 
 	TextureManager::Inst()->LoadTexture("textures/bacon.jpg");

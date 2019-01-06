@@ -67,14 +67,6 @@ void Object::move(float delta_time) {
 
 	direction = glm::normalize(direction);
 	positionVector += direction * velocity * delta_time;
-
-	rotate(rotationVelocity*(-velocity)); // Faster velocity -> faster turning
-	dampenRotation(delta_time);
-}
-
-void Object::dampenRotation(float distance)
-{
-	rotationVelocity *= 0.96;
 }
 
 glm::mat4 Object::getTransformMatrix() const {
@@ -94,4 +86,8 @@ glm::vec3 Object::getRotation() const {
 
 glm::vec3 Object::getScaling() const {
 	return scalingVector;
+}
+
+float Object::getVelocity(){
+	return velocity;
 }
