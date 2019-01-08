@@ -1,11 +1,4 @@
 #pragma once
-//**********************************************
-//Singleton Texture Manager class
-//Written by Ben English
-//benjamin.english@oit.edu
-//
-//For use with OpenGL and the FreeImage library
-//**********************************************
 
 #include <windows.h>
 #include <gl/gl.h>
@@ -22,7 +15,7 @@ public:
 	//load a texture an make it the current texture
 	//if texID is already in use, it will be unloaded and replaced with this texture
 	void LoadTexture(const std::string & filename,	//where to load the file from
-		GLenum image_format = GL_RGB,		//format the image is in
+		GLenum image_format = GL_BGR_EXT,		//format the image is in
 		GLint internal_format = GL_RGB,		//format to store the image in
 		GLint level = 0,					//mipmapping level
 		GLint border = 0);					//border size

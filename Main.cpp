@@ -58,7 +58,7 @@ Road *road;
 
 void setCarLights() {
 	glEnable(GL_LIGHT1);
-	glLightfv(GL_LIGHT1, GL_POSITION, glm::value_ptr(glm::vec4(0, 2, 0, 1))); // 1 in the w makes it spot instead of directional
+	glLightfv(GL_LIGHT1, GL_POSITION, glm::value_ptr(glm::vec4(0, 0.3, 0, 1))); // 1 in the w makes it spot instead of directional
 	glLightfv(GL_LIGHT1, GL_AMBIENT, glm::value_ptr(glm::vec3(0.2, 0.2, 0.2)));
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, glm::value_ptr(glm::vec3(1, 1, 1)));
 	glLightfv(GL_LIGHT1, GL_SPECULAR, glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
@@ -108,6 +108,14 @@ void setStaticLights() {
 
 }
 
+void unsetStaticLights() {
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT1);
+	glDisable(GL_LIGHT2);
+	glDisable(GL_LIGHT3);
+	glDisable(GL_LIGHT4);
+}
+
 void MyRenderFunction(void)
 {
 	update_from_keys();
@@ -122,27 +130,41 @@ void MyRenderFunction(void)
 	// Reset transformations
 	glLoadIdentity();
 
-	glClearColor(1, 1, 1, 1);
+	//glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (key_s) {
+	if (!key_l) {
+		GLfloat A[] = { 0.02, 0.02, 0.02 };
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, A);
+		glClearColor(0.0, 0.0, 0.0, 1);
+	}
+	if (key_l) {
+		GLfloat A[] = { 0.2, 0.2, 0.2, 1.0 };
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, A);
+		glClearColor(1.0, 1.0, 1.0, 1);
+	}
+
+	if (key_s && key_l) {
 		skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
 		setCarLights();
 		glDisable(GL_FOG);
 	}
-	else {
+	if (!key_n) {
 		glEnable(GL_FOG);
 		glFogi(GL_FOG_MODE, GL_LINEAR);
-		glFogf(GL_FOG_DENSITY, 0.04);
 		glFogf(GL_FOG_START, 1);
 		glFogf(GL_FOG_END, 400);
-		float fog_color[] = { 1,1,1,0 };
+		float fog_color[] = { 1,1,1,1 };
 		glFogfv(GL_FOG_COLOR, fog_color);
+		glFogf(GL_FOG_DENSITY, 0.5);
 		glFogi(GL_FOG_COORD_SRC, GL_FRAGMENT_DEPTH);
 	}
 	glMultMatrixf(glm::value_ptr(glm::inverse(cam->getTransformMatrix())));
 	if (key_s) {
 		setStaticLights();
+	}
+	if (!key_s) {
+		unsetStaticLights();
 	}
 
 	glEnable(GL_COLOR_MATERIAL);
@@ -177,47 +199,70 @@ void changeSize(int w, int h) {
 }
 // use this for letters
 void processNormalKeys(unsigned char key, int x, int y) {
-	cout << "Letter key pressed: " << key << "\n";
 	switch (key) {
 	case 27: // escape
 		exit(0);
 	case 's':
-		cout << "toggling s key\n";
 		key_s = !key_s;
+		if (!key_s) {
+			cout << "Simple mode (no texture and lights) on \n";
+		}
+		else {
+			cout << "Simple mode (no texture and lights) off \n";
+		}
 		break;
 	case 'l':
 		key_l = !key_l;
+		if (!key_l) {
+			cout << "Night mode on \n";
+		}
+		else {
+			cout << "Night mode off \n";
+		}
 		break;
 	case 'n':
 		key_n = !key_n;
+		if (!key_n) {
+			cout << "Fog on \n";
+		}
+		else {
+			cout << "Fog off \n";
+		}
 		break;
 	case 'c':
 		key_c = !key_c;
+		if (!key_s) {
+			cout << "Solid elements invisible \n";
+		}
+		else {
+			cout << "Solid elements visible \n";
+		}
 		break;
 	}
 }
 
 void processSpecialKeys(int key, int x, int y) {
-	cout << "Key: " << key << " x: " << x << ", y: " << y << "\n";
-
 	switch (key) {
 	case GLUT_KEY_LEFT:
 		key_left = true;
+		cout << "Turning left \n";
 		break;
 	case GLUT_KEY_RIGHT:
 		key_right = true;
+		cout << "Turning right \n";
 		break;
 	case GLUT_KEY_UP:
 		key_up = true;
+		cout << "Increasing speed \n";
 		break;
 	case GLUT_KEY_DOWN:
 		key_down = true;
+		cout << "Decreasing speed \n";
 		break;
 	}
 }
 
 void processSpecialKeysUp(int key, int x, int y) {
-	cout << "UpKey: " << key << " x: " << x << ", y: " << y << "\n";
 
 	switch (key) {
 	case GLUT_KEY_LEFT:
@@ -242,7 +287,7 @@ int main()
 	glutInitWindowPosition(300, 100);
 	glutInitWindowSize(width, height);
 
-	int argc = 1; // Dummy parameters for glutInit
+	int argc = 1;
 	char *argv[1] = { (char*)"Nothing" };
 
 	glutInit(&argc, argv);
@@ -252,7 +297,7 @@ int main()
 	glEnable(GL_LIGHTING);
 
 
-	int mainwin = glutCreateWindow("Car Game");
+	int mainwin = glutCreateWindow("");
 
 	// Initialize GLEW (for skybox / shader loading)
 	glewExperimental = true; // Needed for core profile
@@ -263,8 +308,8 @@ int main()
 	}
 
 	cam = new Camera(width, height);
-	cam->setPosition(glm::vec3(0, 2, 0));
-	cam->setRotation(glm::vec3(0, 0, 0));
+	cam->setPosition(glm::vec3(80, 500, 150));
+	cam->setRotation(glm::vec3(-PI/2, 0, 0));
 
 	TextureManager::Inst()->LoadTexture("textures/cola.jpg");
 
@@ -296,22 +341,24 @@ int main()
 
 	road = new Road();
 	road->setPosition(glm::vec3(0, 0, 0));
-	road->setScaling(glm::vec3(15, 15, 15));
+	road->setScaling(glm::vec3(8, 8, 8));
 	track_lights = road->getTrackLights();
 	objects.push_back(road);
 
+	// the sign in the middle
 	Square t1;
 	t1.setPosition(glm::vec3(0, 0, -40));
 	t1.setScaling(glm::vec3(15, 15, 15));
 	t1.setTexture("textures/cola.jpg");
-	objects.push_back(&t1);
+	//objects.push_back(&t1);
 
+	// veet ikkee
 	Square *t2 = new Square();
 	t2->setPosition(glm::vec3(0, 0, -5));
 	t2->setScaling(glm::vec3(2, 2, 2));
 	t2->setRotation(glm::vec3(3.14 / 2, 0, 0));
 	t2->setTexture("textures/cola.jpg");
-	cube->addChild(t2);
+	//cube->addChild(t2);
 
 	Cube tc1;
 	tc1.setPosition(glm::vec3(1, 0, 0));

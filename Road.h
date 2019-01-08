@@ -21,6 +21,6 @@ private:
 	Object* createGate();
 	std::vector<glm::vec2> controlPoints;
 	string textureRoad = "textures\\road.jpg";
-	string textureSign = "textures\\cola.jpg"
+	string textureSign = "textures\\cola.jpg";
 };
 

@@ -16,6 +16,8 @@ int texPerControlPoint = 5;
 int segmentsPerTex = 10;
 Square *sign1;
 Square *sign2;
+int nrSquares = 0;
+vector<Square*> squareVector;
 
 int arraySize;
 
@@ -36,7 +38,7 @@ Road::Road()
 	spline = new Spline(controlPoints, widthFactor, texPerControlPoint * segmentsPerTex);
 
 	int splinesegments = controlPoints.size() * segmentsPerTex * texPerControlPoint;
-	int number_of_gates = 20;
+	int number_of_gates = 10;
 	for (int i = 0; i < number_of_gates; i++) {
 		Object *gate = createGate();
 
@@ -50,9 +52,10 @@ Road::Road()
 vector<glm::vec3> Road::getTrackLights() {
 	int splinesegments = controlPoints.size() * segmentsPerTex * texPerControlPoint;
 	vector<glm::vec3> result;
-	for (int i = 0; i < 4; i++) {
-		glm::vec3 p = spline->getMidPoint((splinesegments * i / 4));
-		p += glm::vec3(0, 2, 0);
+	for (int i = 0; i < 8; i++) {
+		glm::vec3 p = spline->getMidPoint((splinesegments * i / 8));
+		// supposed to be 4 meters up
+		p += glm::vec3(0, 4, 0);
 		result.push_back(p);
 	}
 	return result;
@@ -62,8 +65,9 @@ void Road::Draw() {
 	DrawChildren();
 	UpdateMaterial();
 
-	sign1->setTexture(textureSign);
-	sign2->setTexture(textureSign);
+	for (auto i = 0; i < nrSquares; i++) {
+		squareVector[i]->setTexture(textureSign);
+	}
 
 	setTexture(textureRoad);
 	glPushMatrix();
@@ -106,19 +110,22 @@ Object* Road::createGate() {
 	sign1->setTexture(textureSign);
 	sign2 = new Square();
 	sign2->setTexture(textureSign);
+	squareVector.push_back(sign1);
+	squareVector.push_back(sign2);
+	nrSquares += 2;
 
 	left->setColor(glm::vec3(1, 0, 1));
-	left->setPosition(glm::vec3(-1, 1.5, 0));
-	left->setScaling(glm::vec3(0.1, 3, 0.1));
+	left->setPosition(glm::vec3(-0.8, 0.5, 0));
+	left->setScaling(glm::vec3(0.1, 1, 0.1));
 
-	right->setPosition(glm::vec3(1, 1.5, 0));
-	right->setScaling(glm::vec3(0.1, 3, 0.1));
+	right->setPosition(glm::vec3(0.8, 0.5, 0));
+	right->setScaling(glm::vec3(0.1, 1, 0.1));
 
 	mid->setPosition(glm::vec3(0, 1, 0));
 	mid->setScaling(glm::vec3(2, 1, 0.1));
 
 	sign1->setPosition(glm::vec3(0, 1, 0.2f));
-	sign1->setScaling(glm::vec3(1.0, 0.5, 0.1));
+	sign1->setScaling(glm::vec3(0.8, 0.5, 0.1));
 
 	sign2->setPosition(glm::vec3(0, 1, -0.2f));
 	sign2->setScaling(glm::vec3(1.0, 0.5, 0.1));
@@ -130,8 +137,6 @@ Object* Road::createGate() {
 	gate->addChild(mid);
 	gate->addChild(sign1);
 	gate->addChild(sign2);
-
-	cout << "Created gate...\n";
 
 	return gate;
 }
