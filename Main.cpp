@@ -58,7 +58,7 @@ Road *road;
 
 void setCarLights() {
 	glEnable(GL_LIGHT1);
-	glLightfv(GL_LIGHT1, GL_POSITION, glm::value_ptr(glm::vec4(0, 0.3, 0, 1))); // 1 in the w makes it spot instead of directional
+	glLightfv(GL_LIGHT1, GL_POSITION, glm::value_ptr(glm::vec3(0, 0.3, 0))); // 1 in the w makes it spot instead of directional
 	glLightfv(GL_LIGHT1, GL_AMBIENT, glm::value_ptr(glm::vec3(0.2, 0.2, 0.2)));
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, glm::value_ptr(glm::vec3(1, 1, 1)));
 	glLightfv(GL_LIGHT1, GL_SPECULAR, glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
@@ -144,10 +144,13 @@ void MyRenderFunction(void)
 		glClearColor(1.0, 1.0, 1.0, 1);
 	}
 
+	if (key_n) {
+		glDisable(GL_FOG);
+	}
+
 	if (key_s && key_l) {
 		skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
 		setCarLights();
-		glDisable(GL_FOG);
 	}
 	if (!key_n) {
 		glEnable(GL_FOG);
@@ -156,7 +159,7 @@ void MyRenderFunction(void)
 		glFogf(GL_FOG_END, 400);
 		float fog_color[] = { 1,1,1,1 };
 		glFogfv(GL_FOG_COLOR, fog_color);
-		glFogf(GL_FOG_DENSITY, 0.5);
+		glFogf(GL_FOG_DENSITY, 0.7);
 		glFogi(GL_FOG_COORD_SRC, GL_FRAGMENT_DEPTH);
 	}
 	glMultMatrixf(glm::value_ptr(glm::inverse(cam->getTransformMatrix())));
@@ -308,8 +311,8 @@ int main()
 	}
 
 	cam = new Camera(width, height);
-	cam->setPosition(glm::vec3(80, 500, 150));
-	cam->setRotation(glm::vec3(-PI/2, 0, 0));
+	cam->setPosition(glm::vec3(0, 1, 0));
+	cam->setRotation(glm::vec3(0, 0, 0));
 
 	TextureManager::Inst()->LoadTexture("textures/cola.jpg");
 
