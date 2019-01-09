@@ -192,6 +192,7 @@
     <None Include="SimpleFragmentShader.glsl" />
     <None Include="SimpleVertexShader.glsl" />
     <None Include="SkyboxFragmentShader.glsl" />
+    <None Include="SkyboxFragmentShaderNight.glsl" />
     <None Include="SkyboxVertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

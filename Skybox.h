@@ -13,13 +13,14 @@ public:
 	Skybox();
 
 	unsigned int loadCubemap(vector<string> faces);
-	virtual void Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix);
+	virtual void Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix, bool day);
 
 private:
 	GLuint ProjectionID;
 	GLuint ViewID;
 	unsigned int cubemapTexture;
 	GLuint myShader;
+	GLuint shaderNight;
 	GLuint myVAO;
 	GLuint myVBO;
 };

@@ -97,6 +97,7 @@ Skybox::Skybox() {
 	cubemapTexture = loadCubemap(faces);
 
 	myShader = LoadShaders("SkyboxVertexShader.glsl", "SkyboxFragmentShader.glsl");
+	shaderNight = LoadShaders("SkyboxVertexShader.glsl", "SkyboxFragmentShaderNight.glsl");
 
 	glGenVertexArrays(1, &myVAO);
 	glBindVertexArray(myVAO);
@@ -115,10 +116,16 @@ Skybox::Skybox() {
 
 }
 
-void Skybox::Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
+void Skybox::Draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix, bool day) {
+	
 	glBindVertexArray(myVAO);
 	glDepthMask(GL_FALSE);
-	glUseProgram(myShader);
+	if (day) {
+		glUseProgram(myShader);
+	}
+	if (!day) {
+		glUseProgram(shaderNight);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, myVBO);
 
 	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, &projectionMatrix[0][0]);

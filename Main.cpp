@@ -147,9 +147,8 @@ void MyRenderFunction(void)
 	if (key_n) {
 		glDisable(GL_FOG);
 	}
-
+	skybox->Draw(cam->getProjection(), cam->getTransformMatrix(), key_l);
 	if (key_s && key_l) {
-		skybox->Draw(cam->getProjection(), cam->getTransformMatrix());
 		setCarLights();
 	}
 	if (!key_n) {
